@@ -4,15 +4,15 @@
 
 A dark Visual Studio Code color theme built around a midnight-navy editor, pale text, and a small set of cool accents. Ice blue marks focus and links, muted lavender carries language structure, mint distinguishes strings and additions, and muted rose marks removals and errors. Warm sand highlights literals and types so common syntax remains easy to scan.
 
-The color theme works on its own. Version 0.5.1 includes optional setup commands, a curated extension installer, Vim and Neovim presets, custom companions and a focus timer. No extensions, settings or shell commands run automatically on activation. Workbench surfaces stay close to the editor background, with restrained borders and clear selection states.
+The color theme works on its own. Version 0.6.0 includes optional setup commands, a curated extension installer, Vim and Neovim presets, custom companions and a focus timer. No extensions, settings or shell commands run automatically on activation. Workbench surfaces stay close to the editor background, with restrained borders and clear selection states.
 
 ## Pets in motion
 
-A 27-second demo of petting, ball play, naps and all three companions. Recorded from the shipped pet interface in a local preview with motion enabled. In VS Code, companions respect your reduced-motion preference.
+A 48-second demo of petting, ball play, naps and all seven companions. Recorded from the shipped pet interface in a local preview with motion enabled. In VS Code, companions respect your reduced-motion preference.
 
-<video src="https://raw.githubusercontent.com/khons-hu/khonsu-moonlight/v0.5.1/screenshots/pets-demo.mp4" poster="https://raw.githubusercontent.com/khons-hu/khonsu-moonlight/v0.5.1/screenshots/pets-demo-poster.jpg" width="640" style="max-width:100%;height:auto" controls muted playsinline preload="none" aria-label="Moonlight companions: petting, ball play and naps"></video>
+<video src="https://raw.githubusercontent.com/khons-hu/khonsu-moonlight/v0.6.0/screenshots/pets-demo.mp4" poster="https://raw.githubusercontent.com/khons-hu/khonsu-moonlight/v0.6.0/screenshots/pets-demo-poster.jpg" width="640" style="max-width:100%;height:auto" controls muted playsinline preload="none" aria-label="Moonlight companions: petting, ball play and naps"></video>
 
-[Watch or download the pet demo (MP4)](https://github.com/khons-hu/khonsu-moonlight/releases/download/v0.5.1/pets-demo.mp4).
+[Watch or download the pet demo (MP4)](https://github.com/khons-hu/khonsu-moonlight/releases/download/v0.6.0/pets-demo.mp4).
 
 ![Khonsu Moonlight in VS Code](screenshots/vscode.png)
 
@@ -42,7 +42,7 @@ code --install-extension khons-hu.khonsu-moonlight
 
 Select **Khonsu Moonlight** from **Preferences: Color Theme**.
 
-For manual installation, download the [0.5.1 VSIX](https://github.com/khons-hu/khonsu-moonlight/releases/download/v0.5.1/khonsu-moonlight-0.5.1.vsix), then run **Extensions: Install from VSIX...** and choose the file. [GitHub Releases](https://github.com/khons-hu/khonsu-moonlight/releases) include the source and release notes.
+For manual installation, download the [0.6.0 VSIX](https://github.com/khons-hu/khonsu-moonlight/releases/download/v0.6.0/khonsu-moonlight-0.6.0.vsix), then run **Extensions: Install from VSIX...** and choose the file. [GitHub Releases](https://github.com/khons-hu/khonsu-moonlight/releases) include the source and release notes.
 
 To build the current version yourself, use the VS Code Extension Manager (`vsce`) from this directory:
 
@@ -56,11 +56,13 @@ Run **Moonlight: Setup and Extras** from the Command Palette. Every part is opti
 
 - **Install Recommended Extensions** opens a multi-select picker with 22 tools. Choose individual tools or select all. If both modal editors are selected, a second picker asks you to choose one. An enabled conflicting backend must be disabled before installing the other. It skips tools available in the current window, installs sequentially through VS Code's Marketplace command and reports failures. Cancel to stop before the next install.
 - **Apply Optional Settings** lets you choose appearance, formatting and integrated terminal groups. It backs up changed user values and merges language-specific settings. **Restore Previous Settings** keeps settings you have edited afterward. Workspace settings take precedence.
-- **Show Pets** opens the Moonlight sidebar. Customize an original moon cat, fox or little robot with a name and preset or custom hex color. Click your companion or hold and stroke it to pet it. Gentle breathing, blinking and tail movement bring it to life. Toss the moon ball or press Play for a chase, then Rest for a nap and click to wake. The motion toggle remembers your choice, OS reduced motion takes priority, and animations stop while the view is hidden. All artwork and interactions stay local, with no network requests or access to your code.
+- **Show Pets** opens the Moonlight sidebar. Choose a moon cat, fox, little robot, penguin, Labrador, Sam Altman or Tibo Sottiaux (@thsottiaux), then give it a name and preset or custom hex color. Sam and Tibo are original cartoon fan characters. Click your companion or hold and stroke it to pet it. Gentle breathing, blinking and tail movement bring it to life. Toss the moon ball or press Play for a chase, then Rest for a nap and click to wake. The motion toggle remembers your choice, OS reduced motion takes priority, and animations stop while the view is hidden. All artwork and interactions stay local, with no network requests or access to your code.
 - **Start or Manage Focus Session** starts a 15, 25, 45 or 60-minute status-bar timer. Click to pause, resume or stop. It only runs after you start it and ends when the window reloads or closes.
 - **Open Setup Guide** covers fonts, shell configs, a separate VS Code profile, the native Terminal preset, Codex colors and the matching desktop wallpaper.
 
 The catalog includes the existing formatters and language tools, plus [Material Icon Theme](https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme), [Error Lens](https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens), [markdownlint](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint), [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client), GitHub PR and Actions tools, Tailwind, Vitest, Jupyter and GitLens. Optional Codex and Claude Code integrations need their own account access. GitLens has some paid features. Upstream VS Code Pets is an optional extra, separate from Moonlight's own companions. [Browse the full catalog](config/extension-catalog.json).
+
+![Moonlight companion lineup](screenshots/pets-lineup.jpg)
 
 ![Custom Moonlight companion](screenshots/pets.png)
 
@@ -154,3 +156,5 @@ Version 0.3.0 passed 22 runtime checks and a real VS Code 1.140.0 extension-host
 Version 0.4.0 passed 30 runtime checks, a real VS Code 1.140.0 extension-host smoke test and 35 native-editor assertions in Vim 9.1 and Neovim 0.12.5. Separate VSCodeVim and VSCode Neovim profiles were configured and checked for navigation and search in the macOS UI. The checks cover exclusive backend selection, cancellation, retained key settings, the trusted-workspace guard, supported Neovim versions, color values and terminal fallbacks.
 
 Version 0.5.0 passed 38 runtime checks and the VS Code 1.140.0 extension-host smoke test. Rendered checks covered direct click-and-stroke petting, keyboard wake, ball play, saved motion choice, OS reduced motion and a 180-pixel sidebar without horizontal overflow. Animated states were checked in a local test fixture because the test Mac had Reduce motion enabled.
+
+Version 0.6.0 passed 42 runtime checks and the VS Code 1.140.0 extension-host smoke test. All seven companions were checked in the rendered webview fixture. The four new companions fit a 180-pixel sidebar without horizontal overflow and respect OS reduced motion. The 48-second video is recorded from that fixture, with motion enabled only for the recording.

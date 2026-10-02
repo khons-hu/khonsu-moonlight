@@ -3,7 +3,16 @@
 const { randomBytes } = require('node:crypto');
 
 const PET_STATE_KEY = 'moonlight.pet';
-const PET_SPECIES = Object.freeze(['cat', 'fox', 'robot']);
+const PET_CHOICES = Object.freeze([
+  { label: 'Moon cat', description: 'Curious and quietly cosmic', value: 'cat', name: 'Luna' },
+  { label: 'Moon fox', description: 'A small spark of mischief', value: 'fox', name: 'Nova' },
+  { label: 'Little robot', description: 'Your pocket-sized sidekick', value: 'robot', name: 'Orbit' },
+  { label: 'Penguin', description: 'A little waddle under the moon', value: 'penguin', name: 'Pip' },
+  { label: 'Labrador', description: 'Floppy ears and a happy tail', value: 'labrador', name: 'Sunny' },
+  { label: 'Sam Altman', description: 'Stylized fan companion', value: 'sam', name: 'Sam Altman' },
+  { label: 'Tibo Sottiaux', description: '@thsottiaux · stylized fan companion', value: 'tibo', name: 'Tibo' }
+].map(choice => Object.freeze(choice)));
+const PET_SPECIES = Object.freeze(PET_CHOICES.map(choice => choice.value));
 const PET_COLORS = Object.freeze(['#99C7FF', '#B8A6FF', '#96E6C1', '#F5C7A9']);
 const DEFAULT_PET = Object.freeze({ species: 'cat', name: 'Luna', color: '#99C7FF' });
 const MOODS = Object.freeze({ pet: 'happy', play: 'playful', rest: 'resting' });
@@ -146,15 +155,12 @@ class MoonlightPetsProvider {
     if (this.customizing) return;
     this.customizing = true;
     try {
-      const species = await this.vscode.window.showQuickPick([
-        { label: 'Moon cat', description: 'Curious and quietly cosmic', value: 'cat' },
-        { label: 'Moon fox', description: 'A small spark of mischief', value: 'fox' },
-        { label: 'Little robot', description: 'Your pocket-sized sidekick', value: 'robot' }
-      ], { title: 'Moonlight: Choose your companion', placeHolder: 'Pick a companion', ignoreFocusOut: true });
+      const species = await this.vscode.window.showQuickPick(PET_CHOICES,
+        { title: 'Moonlight: Choose your companion', placeHolder: 'Pick a companion', ignoreFocusOut: true });
       if (!species) return;
       const name = await this.vscode.window.showInputBox({
         title: 'Moonlight: Name your companion', prompt: 'A name from 1 to 32 characters',
-        value: this.pet.name, ignoreFocusOut: true,
+        value: species.value === this.pet.species ? this.pet.name : (species.name || this.pet.name), ignoreFocusOut: true,
         validateInput: value => isValidPetName(value.trim()) ? undefined : 'Use 1–32 characters on one line.'
       });
       if (name === undefined) return;

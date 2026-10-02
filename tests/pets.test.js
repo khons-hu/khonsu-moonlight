@@ -173,6 +173,51 @@ test('complete customization persists only the selected companion', async () => 
   assert.deepEqual(provider.pet, calls.updates[0].value);
 });
 
+test('new companions are selectable, named and restored from saved state', async () => {
+  const companions = [
+    ['penguin', 'Penguin', 'Pip'], ['labrador', 'Labrador', 'Sunny'],
+    ['sam', 'Sam Altman', 'Sam Altman'], ['tibo', 'Tibo Sottiaux', 'Tibo']
+  ];
+  for (const [species, label, suggestedName] of companions) {
+    const { vscode, context, calls, view } = fixture();
+    let picks = 0;
+    vscode.window.showQuickPick = async options => {
+      if (picks++ > 0) return options.find(option => option.value === '#99C7FF');
+      const choice = options.find(option => option.value === species);
+      assert.equal(choice?.label, label, 'The companion is actually offered in the picker');
+      return choice;
+    };
+    vscode.window.showInputBox = async options => {
+      assert.equal(options.value, suggestedName);
+      return options.value;
+    };
+    const provider = new MoonlightPetsProvider(vscode, context);
+    provider.resolveWebviewView(view);
+    await provider.customize();
+    const expected = { species, name: suggestedName, color: '#99C7FF' };
+    assert.deepEqual(calls.updates, [{ key: PET_STATE_KEY, value: expected }]);
+    assert.deepEqual(calls.messages.at(-1).pet, expected);
+    const restored = fixture(expected);
+    assert.deepEqual(new MoonlightPetsProvider(restored.vscode, restored.context).pet, expected);
+  }
+});
+
+test('editing the same companion preserves its custom name suggestion', async () => {
+  const saved = { species: 'labrador', name: 'Milo', color: '#96E6C1' };
+  const { vscode, context, calls } = fixture(saved);
+  let picks = 0;
+  vscode.window.showQuickPick = async options => {
+    const value = picks++ ? '#99C7FF' : 'labrador';
+    return options.find(option => option.value === value);
+  };
+  vscode.window.showInputBox = async options => {
+    assert.equal(options.value, 'Milo');
+    return options.value;
+  };
+  await new MoonlightPetsProvider(vscode, context).customize();
+  assert.equal(calls.updates[0].value.name, 'Milo');
+});
+
 test('canceling any customization step keeps the stored state unchanged', async () => {
   for (const step of ['species', 'name', 'color', 'custom-color']) {
     const { vscode, context, calls } = fixture();

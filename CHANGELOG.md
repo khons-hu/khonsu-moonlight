@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.0
+
+- Add a penguin, Labrador, Sam Altman and Tibo Sottiaux (@thsottiaux) to the companion picker. Sam and Tibo are original cartoon fan characters.
+- Give each new companion local SVG artwork, shared petting, ball play, nap and wake interactions, and a suggested name.
+- Preserve saved companions, custom colors, keyboard access and reduced-motion behavior.
+- Update the 48-second companion demo and screenshots to show the full seven-character lineup.
+
 ## 0.5.1
 
 - Add an embedded pet-demo video to the Marketplace README, with a poster and direct MP4 download.

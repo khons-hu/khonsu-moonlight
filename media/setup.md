@@ -28,7 +28,7 @@ For native editors, `vim/colors/khonsu-moonlight.vim` and `nvim/colors/khonsu-mo
 
 ## Pets and focus
 
-Open the Moonlight icon in the Activity Bar, or run **Moonlight: Show Pets**. Choose a moon cat, fox or robot, give it a name and choose its color. Click your companion or hold and stroke it to pet it. Toss the ball or press Play for a chase, then Rest for a nap and click to wake. Gentle breathing, blinking and tail movement keep it company. Motion can be switched off, pauses while hidden and respects OS reduced-motion preferences. The companion does not read your code or call a model.
+Open the Moonlight icon in the Activity Bar, or run **Moonlight: Show Pets**. Choose a moon cat, fox, robot, penguin, Labrador, Sam Altman or Tibo Sottiaux (@thsottiaux), give it a name and choose its color. Sam and Tibo are cartoon fan characters. Click your companion or hold and stroke it to pet it. Toss the ball or press Play for a chase, then Rest for a nap and click to wake. Gentle breathing, blinking and tail movement keep it company. Motion can be switched off, pauses while hidden and respects OS reduced-motion preferences. The companion does not read your code or call a model.
 
 **Moonlight: Start or Manage Focus Session** starts a 15, 25, 45 or 60-minute timer. Click its status-bar item to pause, resume or stop. It only runs after you start it and ends when VS Code reloads or closes.
 

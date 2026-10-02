@@ -8,7 +8,7 @@
   const name = document.getElementById('pet-name');
   const status = document.getElementById('pet-status');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const species = ['cat', 'fox', 'robot'];
+  const species = ['cat', 'fox', 'robot', 'penguin', 'labrador', 'sam', 'tibo'];
   const moods = ['idle', 'happy', 'playful', 'resting'];
   const motionButton = document.getElementById('motion');
   let currentPet;
@@ -25,6 +25,51 @@
   const frame = body => `<svg viewBox="0 0 220 190" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true"><ellipse cx="110" cy="177" rx="67" ry="7" fill="#070e19" opacity=".6"/>${body}</svg>`;
   function petSvg(pet) {
     const color = pet.color;
+    if (pet.species === 'penguin') return frame(`
+      <g class="pet-flippers">
+        <path d="M76 113q-22 12-30 39q-3 10 7 13q15 1 31-29" fill="#27344a" stroke="#0b111a" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M144 113q22 12 30 39q3 10-7 13q-15 1-31-29" fill="#27344a" stroke="#0b111a" stroke-width="3" stroke-linejoin="round"/>
+      </g>
+      <path d="M69 137q-1-44 41-45q42 1 41 45v32q0 8-9 8H78q-9 0-9-8z" fill="#26334a" stroke="#0b111a" stroke-width="3"/>
+      <ellipse cx="110" cy="145" rx="29" ry="39" fill="#edf3ff"/>
+      <ellipse cx="110" cy="79" rx="48" ry="45" fill="#26334a" stroke="#0b111a" stroke-width="3"/>
+      <ellipse cx="110" cy="87" rx="36" ry="37" fill="#edf3ff"/>
+      ${eyes}<path d="m100 91 10 12 10-12q-10-5-20 0z" fill="#f59b38" stroke="#0b111a" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M82 116q28 11 56 0l-2 9q-26 11-52 0z" fill="${color}" stroke="#0b111a" stroke-width="2.5" stroke-linejoin="round"/><path d="m133 122 10 7-10 5-4-6z" fill="${color}" stroke="#0b111a" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M80 167q-13 0-18 8q2 7 34 5l5-9zM140 167q13 0 18 8q-2 7-34 5l-5-9z" fill="#f59b38" stroke="#0b111a" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M89 177v5m8-5v5m26-5v5m8-5v5" stroke="#0b111a" stroke-width="2" stroke-linecap="round"/>`);
+    if (pet.species === 'labrador') return frame(`
+      <g class="pet-tail"><path d="M143 151q44 2 36-27q-4-13-15-8" fill="none" stroke="#0b111a" stroke-width="18" stroke-linecap="round"/><path d="M143 151q44 2 36-27q-4-13-15-8" fill="none" stroke="${color}" stroke-width="12" stroke-linecap="round"/></g>
+      <path d="M74 160q3-44 36-44q34 0 37 44v15H73z" fill="${color}" stroke="#0b111a" stroke-width="3"/><path d="M97 127q13 11 26 0l9 48H88z" fill="#f1d29a" opacity=".8"/>
+      <path d="M76 65q-20-18-27 9q-7 30 20 49q13-3 17-25zM144 65q20-18 27 9q7 30-20 49q-13-3-17-25z" fill="#c99247" stroke="#0b111a" stroke-width="3"/>
+      <path d="M62 84q0-39 48-40q48 1 48 40v20q-4 37-48 38q-44-1-48-38z" fill="${color}" stroke="#0b111a" stroke-width="3"/>
+      ${eyes}<ellipse cx="110" cy="119" rx="30" ry="20" fill="#f1d29a"/><ellipse cx="110" cy="112" rx="8" ry="6" fill="#0b111a"/><path d="M110 118q0 11-10 11m10-11q0 11 10 11" fill="none" stroke="#0b111a" stroke-width="2.5" stroke-linecap="round"/>
+      <rect x="79" y="162" width="27" height="14" rx="7" fill="${color}"/><rect x="114" y="162" width="27" height="14" rx="7" fill="${color}"/>`);
+    if (pet.species === 'sam' || pet.species === 'tibo') {
+      const isTibo = pet.species === 'tibo';
+      const hair = isTibo
+        ? '<path d="M61 84q-5-44 40-48q48-4 58 32l-8 21q-7-22-20-29q-24 18-69 15z" fill="#27212b" stroke="#0b111a" stroke-width="3" stroke-linejoin="round"/>'
+        : '<path d="M62 83q-5-42 38-47q35-5 54 15q-12 0-22 8q-24-9-48 8l-9 24z" fill="#29242a" stroke="#0b111a" stroke-width="3" stroke-linejoin="round"/>';
+      const accessory = isTibo ? ''
+        : '<g class="pet-goggles"><path d="M66 68q22-12 43-7m2 0q22-5 43 7" fill="none" stroke="#b8a6ff" stroke-width="4" stroke-linecap="round"/><rect x="83" y="59" width="23" height="15" rx="6" fill="#99c7ff" stroke="#0b111a" stroke-width="2.5"/><rect x="114" y="59" width="23" height="15" rx="6" fill="#99c7ff" stroke="#0b111a" stroke-width="2.5"/><path d="M106 65h8" stroke="#0b111a" stroke-width="2.5"/></g>';
+      const shirt = isTibo ? '#292b31' : color;
+      const clothing = isTibo
+        ? '<path d="M96 118q14 7 28 0l8 59H88z" fill="#34363d"/><path d="M99 118q11 7 22 0" fill="none" stroke="#99c7ff" stroke-width="3" stroke-linecap="round"/>'
+        : '<path d="M89 123l21 19 21-19l9 54H80z" fill="#edf3ff"/><path d="m102 135 8 9 8-9-8 22z" fill="#b8a6ff"/>';
+      const smile = isTibo
+        ? '<path d="M97 106q13 13 26 0q-2 11-13 11q-11 0-13-11z" fill="#fff4e8" stroke="#0b111a" stroke-width="2" stroke-linejoin="round"/>'
+        : '<path d="M104 108q6 4 12 0" fill="none" stroke="#0b111a" stroke-width="2.5" stroke-linecap="round"/>';
+      const stubble = isTibo
+        ? '<g fill="#55484a" opacity=".62"><circle cx="83" cy="116" r="1.2"/><circle cx="89" cy="122" r="1"/><circle cx="96" cy="126" r="1.2"/><circle cx="103" cy="129" r="1"/><circle cx="117" cy="129" r="1"/><circle cx="124" cy="126" r="1.2"/><circle cx="131" cy="122" r="1"/><circle cx="137" cy="116" r="1.2"/><circle cx="90" cy="129" r="1"/><circle cx="130" cy="129" r="1"/></g>'
+        : '';
+      return frame(`
+        <path d="M74 145q3-30 36-30q34 0 37 30v32H73z" fill="${shirt}" stroke="#0b111a" stroke-width="3"/>
+        ${clothing}
+        <path d="M74 145q-12 11-10 26q4 7 14 2l12-24M146 145q12 11 10 26q-4 7-14 2l-12-24" fill="${color}" stroke="#0b111a" stroke-width="3" stroke-linecap="round"/>
+        <path d="M86 176h17m21 0h17" stroke="#26334a" stroke-width="8" stroke-linecap="round"/><path d="M86 180h17m21 0h17" stroke="#edf3ff" stroke-width="3" stroke-linecap="round"/>
+        <path d="M66 76q0-34 44-34q44 0 44 34v20q0 34-44 37q-44-3-44-37z" fill="#e6b98a" stroke="#0b111a" stroke-width="3"/>
+        ${hair}${accessory}${eyes}<path d="M81 91q8-5 16 0m26 0q8-5 16 0" fill="none" stroke="#332b31" stroke-width="3" stroke-linecap="round"/>${smile}${stubble}`);
+    }
     if (pet.species === 'fox') return frame(`
       <g class="pet-tail"><path d="M142 150q46-59 57-16q7 37-52 39" fill="${color}" stroke="#0b111a" stroke-width="3"/><path d="M180 136q20-10 17 12q-3 18-24 21" fill="#edf3ff"/></g>
       <path d="M73 162q4-48 37-47q38 0 40 47v12H72z" fill="${color}" stroke="#0b111a" stroke-width="3"/><path d="m88 132 22 31 22-31-22-10z" fill="#edf3ff"/>
@@ -122,7 +167,13 @@
     currentPet = pet;
     name.textContent = pet.name;
     art.setAttribute('aria-label', `Pet ${pet.name}`);
-    scene.setAttribute('aria-label', `${pet.name}, your ${pet.species === 'robot' ? 'little robot' : `moon ${pet.species}`}`);
+    const kind = ({
+      robot: 'little robot', penguin: 'moon penguin', labrador: 'moon labrador',
+      sam: 'fan character companion', tibo: 'fan character companion'
+    })[pet.species] || `moon ${pet.species}`;
+    scene.setAttribute('aria-label', pet.species === 'sam' || pet.species === 'tibo'
+      ? `${pet.name}, a fan character companion`
+      : `${pet.name}, your ${kind}`);
     hostVisible = hostIsVisible;
     const newInteraction = lastInteractionId !== undefined && interactionId !== lastInteractionId;
     lastInteractionId = interactionId;

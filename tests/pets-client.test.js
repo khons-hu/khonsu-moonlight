@@ -88,6 +88,46 @@ test('keyboard button activation and ball use the same host actions', () => {
   assert.equal(c.elements['pet-art'].attrs['aria-label'], 'Pet Luna');
 });
 
+test('penguin, Labrador, Sam and Tibo render original art and support every companion action', () => {
+  const companions = [
+    { species: 'penguin', name: 'Pip', color: '#99c7ff', art: ['pet-flippers', '#f59b38', '#26334a'], label: 'Pip, your moon penguin' },
+    { species: 'labrador', name: 'Sunny', color: '#c98d4b', art: ['pet-tail', '#f1d29a', '#c98d4b'], label: 'Sunny, your moon labrador' },
+    { species: 'sam', name: 'Sam Altman', color: '#99c7ff', art: ['pet-goggles', '#29242a', '#e6b98a', '#edf3ff'], label: 'Sam Altman, a fan character companion' },
+    { species: 'tibo', name: 'Tibo Sottiaux', color: '#b8a6ff', art: ['#27212b', '#55484a', '#292b31', '#e6b98a'], label: 'Tibo Sottiaux, a fan character companion' }
+  ];
+  for (const pet of companions) {
+    const c = client();
+    c.send('idle', 0, true, pet);
+    const svg = c.elements['pet-art'].innerHTML;
+    for (const feature of pet.art) assert.ok(svg.includes(feature), `${pet.species} artwork includes ${feature}`);
+    assert.ok(svg.includes(pet.color), `${pet.species} artwork uses its selected accent`);
+    assert.equal(c.elements.scene.attrs['aria-label'], pet.label);
+    assert.equal(c.elements['pet-art'].attrs['aria-label'], `Pet ${pet.name}`);
+
+    c.elements['pet-art'].emit('click', { detail: 0 });
+    c.elements.toy.emit('click');
+    c.actions.rest.emit('click');
+    assert.deepEqual(interactionMessages(c).map(message => message.action), ['pet', 'play', 'rest']);
+    c.send('resting', 1, true, pet);
+    assert.equal(c.elements.scene.dataset.mood, 'resting');
+    assert.match(c.elements['pet-status'].textContent, /quiet moon nap/);
+    c.elements['pet-art'].emit('click', { detail: 0 });
+    c.send('happy', 2, true, pet);
+    assert.equal(c.elements.scene.dataset.mood, 'happy');
+    assert.match(c.elements['pet-status'].textContent, /head scratches/);
+  }
+});
+
+test('unsupported companion species leave the current art and identity untouched', () => {
+  const c = client(); c.send();
+  const art = c.elements['pet-art'].innerHTML;
+  const name = c.elements['pet-name'].textContent;
+  c.send('happy', 1, true, { species: 'unicorn', name: 'Nova', color: '#99c7ff' });
+  assert.equal(c.elements['pet-art'].innerHTML, art);
+  assert.equal(c.elements['pet-name'].textContent, name);
+  assert.equal(c.elements.scene.dataset.mood, 'idle');
+});
+
 test('repeated actions restart one bounded reaction and ready refresh cannot replay it', () => {
   const c = client(); c.send();
   c.send('playful', 1);

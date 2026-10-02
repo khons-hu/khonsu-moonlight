@@ -82,10 +82,12 @@ button.subtle:hover { background: var(--vscode-toolbar-hoverBackground, #ffffff1
 .scene[data-mood="idle"] .pet-art svg { animation: breathe 3.8s ease-in-out infinite; }
 .scene[data-mood="idle"] .eye-open { animation: blink 6s infinite; transform-box: fill-box; transform-origin: center; }
 .pet-tail { transform-box: fill-box; transform-origin: 10% 85%; animation: tail 3s ease-in-out infinite; }
+.pet-flippers { transform-box: fill-box; transform-origin: 50% 20%; animation: flippers 3s ease-in-out infinite; }
 .pet-antenna { transform-box: fill-box; transform-origin: 50% 100%; animation: antenna 3s ease-in-out infinite; }
 .scene[data-mood="happy"] .pet-tail, .scene[data-stroking="true"] .pet-tail { animation: tail 450ms ease-in-out infinite; }
+.scene[data-mood="happy"] .pet-flippers, .scene[data-stroking="true"] .pet-flippers { animation: flippers 500ms ease-in-out infinite; }
 .scene[data-stroking="true"][data-mood="happy"] .pet-art svg { animation: nuzzle 700ms ease-in-out infinite; }
-.scene[data-mood="resting"] .pet-tail, .scene[data-mood="resting"] .pet-antenna { animation: none; }
+.scene[data-mood="resting"] .pet-tail, .scene[data-mood="resting"] .pet-flippers, .scene[data-mood="resting"] .pet-antenna { animation: none; }
 .scene[data-mood="happy"] .spark { border-radius: 50% 50% 25% 50%; animation: affection 700ms ease-out 2; }
 .scene[data-stroking="true"][data-mood="happy"] .spark { animation-iteration-count: infinite; }
 .toy { position: absolute; z-index: 2; right: 9%; bottom: 19px; width: 24px; height: 24px; min-height: 0; padding: 0; border: 2px solid #d8e4f3; border-radius: 50%; background: #b8a6ff; box-shadow: 0 3px 7px #070e1980; }
@@ -104,6 +106,7 @@ body[data-motion="false"] *, body[data-motion="false"] *::before, body[data-moti
 @keyframes breathe { 50% { transform: scale(1.015, .98); } }
 @keyframes blink { 0%, 41%, 45%, 100% { transform: scaleY(1); } 43% { transform: scaleY(.08); } }
 @keyframes tail { 50% { transform: rotate(-9deg); } }
+@keyframes flippers { 50% { transform: rotate(-5deg); } }
 @keyframes antenna { 50% { transform: rotate(7deg); } }
 @keyframes nuzzle { 30% { transform: rotate(-6deg) translateY(-3px); } 65% { transform: rotate(5deg) translateY(-2px); } }
 @keyframes hop { 40% { transform: translateY(-12px) rotate(4deg); } 80% { transform: scale(1.04, .96); } }

@@ -2,7 +2,7 @@
   "name": "khonsu-moonlight",
   "displayName": "Khonsu Moonlight",
   "description": "A midnight-navy theme with optional setup, Vim and Neovim presets, interactive animated pets and a focus timer.",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "publisher": "khons-hu",
   "license": "MIT",
   "repository": {
@@ -153,7 +153,7 @@
           {
             "id": "pets",
             "title": "Meet a companion",
-            "description": "Customize an optional moon cat, fox or robot.\n[Open](command:moonlight.showPets)",
+            "description": "Choose from seven local companions, including a penguin, Labrador and two cartoon fan characters.\n[Open](command:moonlight.showPets)",
             "media": {
               "markdown": "media/setup.md"
             }
@@ -194,6 +194,6 @@
   ],
   "scripts": {
     "test": "node --test tests/*.test.js",
-    "package": "npx @vscode/vsce package --allow-missing-repository --out dist/khonsu-moonlight-0.5.1.vsix"
+    "package": "npx @vscode/vsce package --allow-missing-repository --out dist/khonsu-moonlight-0.6.0.vsix"
   }
 }
