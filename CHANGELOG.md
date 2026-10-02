@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.1
+
+- Add an embedded pet-demo video to the Marketplace README, with a poster and direct MP4 download.
+- Show petting, moon-ball play, naps and all three companions in the shipped pet interface.
+- Keep the pet behavior and optional setup unchanged from 0.5.0.
+
 ## 0.5.0
 
 - Pet companions directly by clicking or holding and stroking, with keyboard button access.

@@ -2,7 +2,7 @@
   "name": "khonsu-moonlight",
   "displayName": "Khonsu Moonlight",
   "description": "A midnight-navy theme with optional setup, Vim and Neovim presets, interactive animated pets and a focus timer.",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "publisher": "khons-hu",
   "license": "MIT",
   "repository": {
@@ -194,6 +194,6 @@
   ],
   "scripts": {
     "test": "node --test tests/*.test.js",
-    "package": "npx @vscode/vsce package --allow-missing-repository --out dist/khonsu-moonlight-0.5.0.vsix"
+    "package": "npx @vscode/vsce package --allow-missing-repository --out dist/khonsu-moonlight-0.5.1.vsix"
   }
 }

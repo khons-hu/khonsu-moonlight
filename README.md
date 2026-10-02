@@ -4,7 +4,15 @@
 
 A dark Visual Studio Code color theme built around a midnight-navy editor, pale text, and a small set of cool accents. Ice blue marks focus and links, muted lavender carries language structure, mint distinguishes strings and additions, and muted rose marks removals and errors. Warm sand highlights literals and types so common syntax remains easy to scan.
 
-The color theme works on its own. Version 0.5.0 includes optional setup commands, a curated extension installer, Vim and Neovim presets, custom companions and a focus timer. No extensions, settings or shell commands run automatically on activation. Workbench surfaces stay close to the editor background, with restrained borders and clear selection states.
+The color theme works on its own. Version 0.5.1 includes optional setup commands, a curated extension installer, Vim and Neovim presets, custom companions and a focus timer. No extensions, settings or shell commands run automatically on activation. Workbench surfaces stay close to the editor background, with restrained borders and clear selection states.
+
+## Pets in motion
+
+A 27-second demo of petting, ball play, naps and all three companions. Recorded from the shipped pet interface in a local preview with motion enabled. In VS Code, companions respect your reduced-motion preference.
+
+<video src="https://raw.githubusercontent.com/khons-hu/khonsu-moonlight/v0.5.1/screenshots/pets-demo.mp4" poster="https://raw.githubusercontent.com/khons-hu/khonsu-moonlight/v0.5.1/screenshots/pets-demo-poster.jpg" width="640" style="max-width:100%;height:auto" controls muted playsinline preload="none" aria-label="Moonlight companions: petting, ball play and naps"></video>
+
+[Watch or download the pet demo (MP4)](https://github.com/khons-hu/khonsu-moonlight/releases/download/v0.5.1/pets-demo.mp4).
 
 ![Khonsu Moonlight in VS Code](screenshots/vscode.png)
 
@@ -34,7 +42,7 @@ code --install-extension khons-hu.khonsu-moonlight
 
 Select **Khonsu Moonlight** from **Preferences: Color Theme**.
 
-For manual installation, download the [0.5.0 VSIX](https://github.com/khons-hu/khonsu-moonlight/releases/download/v0.5.0/khonsu-moonlight-0.5.0.vsix), then run **Extensions: Install from VSIX...** and choose the file. [GitHub Releases](https://github.com/khons-hu/khonsu-moonlight/releases) include the source and release notes.
+For manual installation, download the [0.5.1 VSIX](https://github.com/khons-hu/khonsu-moonlight/releases/download/v0.5.1/khonsu-moonlight-0.5.1.vsix), then run **Extensions: Install from VSIX...** and choose the file. [GitHub Releases](https://github.com/khons-hu/khonsu-moonlight/releases) include the source and release notes.
 
 To build the current version yourself, use the VS Code Extension Manager (`vsce`) from this directory:
 
