@@ -6,6 +6,22 @@ The package contributes one declarative color theme. It has no runtime code, act
 
 ![Khonsu Moonlight in VS Code](screenshots/vscode.png)
 
+## Details
+
+Real screenshots from VS Code on macOS. Click an image to inspect it at full size.
+
+The two-line Starship prompt shows the current Git branch and detected Node version. `sleep 2.1` demonstrates timing. The harmless `false` command demonstrates exit code 1 and the rose error prompt.
+
+[![Git, runtime, timing and exit status](screenshots/prompt-details.png)](screenshots/prompt-details.png)
+
+The included TypeScript sample shows the syntax colours and bracket guides. The sample text is illustrative, not a test report.
+
+[![TypeScript syntax colours up close](screenshots/syntax-details.png)](screenshots/syntax-details.png)
+
+The shipped public profile uses JetBrains Mono Nerd Font at 14 px in the terminal, a line cursor and Prettier on save.
+
+[![Public font and formatter settings](screenshots/settings-details.png)](screenshots/settings-details.png)
+
 ## Install from a VSIX
 
 Download `khonsu-moonlight-0.2.0.vsix` from [GitHub Releases](https://github.com/khons-hu/khonsu-moonlight/releases). This is a GitHub release, not a Marketplace listing. To build the VSIX yourself, use the VS Code Extension Manager (`vsce`) from this directory:
