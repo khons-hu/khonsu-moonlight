@@ -4,7 +4,7 @@
 
 A dark Visual Studio Code color theme built around a midnight-navy editor, pale text, and a small set of cool accents. Ice blue marks focus and links, muted lavender carries language structure, mint distinguishes strings and additions, and muted rose marks removals and errors. Warm sand highlights literals and types so common syntax remains easy to scan.
 
-The package contributes one declarative color theme. It has no runtime code, activation events, injected styles, wallpaper, or extension dependencies. Workbench surfaces stay close to the editor background, with restrained borders and clear selection states.
+The color theme works on its own. Version 0.3.0 adds optional setup commands, a curated extension installer, custom companions and a focus timer. No extensions, settings or shell commands run automatically on activation. Workbench surfaces stay close to the editor background, with restrained borders and clear selection states.
 
 ![Khonsu Moonlight in VS Code](screenshots/vscode.png)
 
@@ -34,7 +34,7 @@ code --install-extension khons-hu.khonsu-moonlight
 
 Select **Khonsu Moonlight** from **Preferences: Color Theme**.
 
-For manual installation, download the [0.2.2 VSIX](https://github.com/khons-hu/khonsu-moonlight/raw/v0.2.2/dist/khonsu-moonlight-0.2.2.vsix), then run **Extensions: Install from VSIX...** and choose the file. [GitHub Releases](https://github.com/khons-hu/khonsu-moonlight/releases) include the source and release notes.
+For manual installation, download the [0.3.0 VSIX](https://github.com/khons-hu/khonsu-moonlight/releases/download/v0.3.0/khonsu-moonlight-0.3.0.vsix), then run **Extensions: Install from VSIX...** and choose the file. [GitHub Releases](https://github.com/khons-hu/khonsu-moonlight/releases) include the source and release notes.
 
 To build the current version yourself, use the VS Code Extension Manager (`vsce`) from this directory:
 
@@ -42,13 +42,31 @@ To build the current version yourself, use the VS Code Extension Manager (`vsce`
 npx @vscode/vsce package
 ```
 
+## Setup and extras
+
+Run **Moonlight: Setup and Extras** from the Command Palette. Every part is optional:
+
+- **Install Recommended Extensions** opens a multi-select picker with 20 tools. Choose individual tools or select all. It skips tools available in the current window, installs sequentially through VS Code's Marketplace command and reports failures. Cancel to stop before the next install.
+- **Apply Optional Settings** lets you choose appearance, formatting and integrated terminal groups. It backs up changed user values and merges language-specific settings. **Restore Previous Settings** keeps settings you have edited afterward. Workspace settings take precedence.
+- **Show Pets** opens the Moonlight sidebar. Customize an original moon cat, fox or little robot with a name and preset or custom hex color. Pet, Play and Rest trigger short reactions. Reduced motion is respected, with no continuous animation, network requests or access to your code.
+- **Start or Manage Focus Session** starts a 15, 25, 45 or 60-minute status-bar timer. Click to pause, resume or stop. It only runs after you start it and ends when the window reloads or closes.
+- **Open Setup Guide** covers fonts, shell configs, a separate VS Code profile, the native Terminal preset, Codex colors and the matching desktop wallpaper.
+
+The catalog includes the existing formatters and language tools, plus [Material Icon Theme](https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme), [Error Lens](https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens), [markdownlint](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint), [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client), GitHub PR and Actions tools, Tailwind, Vitest, Jupyter and GitLens. Optional Codex and Claude Code integrations need their own account access. GitLens has some paid features. Upstream VS Code Pets is an optional extra, separate from Moonlight's own companions. [Browse the full catalog](config/extension-catalog.json).
+
+![Custom Moonlight companion](screenshots/pets.png)
+
+![Moonlight setup and extras](screenshots/setup.png)
+
+Moonlight has no mandatory extension dependencies, telemetry, account credentials or background model calls. VS Code handles extension downloads and its normal publisher/account prompts.
+
 ## Optional editor setup
 
 After installing the theme, run **Profiles: Import Profile** and select [`config/khonsu-moonlight.code-profile`](config/khonsu-moonlight.code-profile) to create a separate profile with the optional settings and language extensions. Install Khonsu Moonlight in that profile too. The profile contains only editor settings and a list of public extensions. It does not include account data, workspace history, MCP servers or credentials.
 
-Alternatively, merge the preferences in [`config/settings.json`](config/settings.json) into your user settings. Review the values first, rather than replacing your existing file. [`config/extensions.json`](config/extensions.json) lists the suggested extensions. The theme works without any of them.
+Alternatively, merge the preferences in [`config/settings.json`](config/settings.json) into your user settings. Review the values first, rather than replacing your existing file. [`config/extensions.json`](config/extensions.json) lists the suggested extensions. The theme works without any of them. The same optional setup files are now bundled in the extension and accessible with **Moonlight: Open Setup Assets**.
 
-The editor uses Menlo with monospace fallbacks. The terminal uses JetBrains Mono Nerd Font Mono (`JetBrainsMono NFM`) at 14px, with extra line spacing and a steady line cursor. The editor has no minimap, bracket guides and format on explicit save. Prettier covers web files and Markdown, Ruff formats Python and organizes imports on explicit save. ESLint, EditorConfig, YAML and Vue support are recommended. Project-specific `.prettierrc`, `.editorconfig`, Ruff and workspace settings take precedence over the personal formatting defaults. VS Code does not run format-on-save for Auto Save after a short delay, so use a normal save when you want formatting.
+The editor uses Menlo with monospace fallbacks. The appearance preset can select Material Icon Theme when it is available. The terminal uses JetBrains Mono Nerd Font Mono (`JetBrainsMono NFM`) at 14px, with extra line spacing and a steady line cursor. The editor has no minimap, bracket guides and format on explicit save. Prettier covers web files and Markdown, Ruff formats Python and organizes imports on explicit save. ESLint, EditorConfig, YAML and Vue support are recommended. Project-specific `.prettierrc`, `.editorconfig`, Ruff and workspace settings take precedence over the personal formatting defaults. VS Code does not run format-on-save for Auto Save after a short delay, so use a normal save when you want formatting.
 
 A matching [Codex theme import string](config/codex-theme.txt) is included. Import it under **Settings > Appearance > Dark theme > Import**. That preset was checked against the installed Codex theme format, but has not been applied or visually tested in Codex. Claude Desktop currently exposes dark mode and chat-font controls, without a custom background or palette import in the version inspected.
 
@@ -56,7 +74,7 @@ A matching [Codex theme import string](config/codex-theme.txt) is included. Impo
 
 The terminal adds a lunar two-line [Starship](https://starship.rs/config/) prompt, shortened paths, Git branch and working-tree indicators, detected project runtimes, command duration after two seconds and the last command's failure code. Completions, muted autosuggestions and syntax highlighting come from the separate zsh setup. These shell files are optional and are not executed by the VS Code extension.
 
-On macOS with Homebrew, install the public dependencies:
+On macOS with Homebrew, **Moonlight: Prepare macOS Terminal Setup** prepares the bundled setup command in a terminal. Review it and press Enter to run it. The script installs the dependencies below, copies configs with timestamped backups and appends the source block to `.zshrc` once. It does not install Homebrew, use sudo or change your PATH. Alternatively, install the public dependencies manually:
 
 ```sh
 brew install starship zsh-autosuggestions zsh-syntax-highlighting
@@ -97,3 +115,5 @@ The theme targets VS Code `^1.100.0`. Syntax coloring includes common TextMate s
 Version 0.1.0 was packaged and installed in VS Code 1.140.0 on macOS Apple silicon. The theme was visually checked on the included synthetic TypeScript sample. Prettier format-on-save was checked in VS Code, and the installed Ruff formatter normalized a synthetic Python sample from its CLI. The profile format was checked against VS Code's profile resource schema.
 
 Version 0.2.0 adds the terminal setup. The shell files passed syntax checks, the TOML parsed successfully, and the native Terminal preset passed plist validation. Starship 1.26.0, zsh-autosuggestions 0.7.1, zsh-syntax-highlighting 0.8.0 and Nerd Fonts 3.5.1 were installed on macOS. The live integrated terminal was checked in VS Code. The Codex and native macOS Terminal presets remain manual imports, without live appearance checks.
+
+Version 0.3.0 passed 22 runtime checks and a real VS Code 1.140.0 extension-host smoke test. Live macOS checks covered installing a selected Marketplace extension, applying backed-up appearance settings, pet customization and play, and focus start, pause, resume and stop. The screenshots above come from that installed build.

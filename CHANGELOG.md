@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0
+
+- Add a selective installer for 20 public VS Code extensions, with progress, cancellation and install results.
+- Add optional appearance, formatting and terminal settings with backups and a restore command.
+- Add three customizable local companions: moon cat, fox and robot, with names, colors and brief interactions.
+- Add a local focus timer with pause, resume and stop.
+- Bundle the optional shell, font setup guide, profile, native Terminal and Codex presets, and Moonlight wallpaper.
+- Keep the theme standalone and every extra opt-in.
+
 ## 0.2.2
 
 - Add direct Marketplace installation and keep a manual VSIX option.

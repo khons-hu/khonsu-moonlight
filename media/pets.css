@@ -1,0 +1,87 @@
+:root {
+  color-scheme: light dark;
+  --moon-blue: #99c7ff;
+  --moon-lavender: #b8a6ff;
+  --moon-mint: #96e6c1;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 14px 12px;
+  font-family: var(--vscode-font-family, system-ui, sans-serif);
+  font-size: var(--vscode-font-size, 13px);
+  color: var(--vscode-foreground, #d8e4f3);
+  background: var(--vscode-sideBar-background, #0b111a);
+}
+main { max-width: 440px; margin: auto; }
+header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; }
+.eyebrow { color: var(--vscode-descriptionForeground, #8b9bae); font-size: 11px; letter-spacing: 0.04em; }
+button {
+  min-height: 30px;
+  border: 1px solid var(--vscode-button-border, transparent);
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: var(--vscode-button-foreground, #0b111a);
+  background: var(--vscode-button-background, #99c7ff);
+  font: inherit;
+  cursor: pointer;
+}
+button:hover { background: var(--vscode-button-hoverBackground, #b8a6ff); }
+button:focus-visible { outline: 2px solid var(--vscode-focusBorder, #99c7ff); outline-offset: 3px; }
+button.subtle {
+  min-height: 26px;
+  padding: 3px 7px;
+  font-size: 11px;
+  color: var(--vscode-textLink-foreground, #99c7ff);
+  background: transparent;
+}
+button.subtle:hover { background: var(--vscode-toolbar-hoverBackground, #ffffff10); }
+.scene {
+  position: relative;
+  isolation: isolate;
+  margin-top: 12px;
+  min-height: 150px;
+  aspect-ratio: 1.45;
+  max-height: 240px;
+  overflow: hidden;
+  border: 1px solid var(--vscode-widget-border, #243246);
+  border-radius: 16px;
+  background: radial-gradient(ellipse at 50% 80%, #22314b 0, #131e2f 40%, #0b111a 78%);
+}
+.ground {
+  position: absolute;
+  inset: auto 8% 12px;
+  height: 3px;
+  border-radius: 100%;
+  background: linear-gradient(90deg, transparent, #99c7ff50, #b8a6ff50, transparent);
+}
+.pet-art { position: absolute; width: 75%; max-width: 230px; bottom: 10px; left: 50%; transform: translateX(-50%); transform-origin: 50% 85%; }
+.pet-art svg { display: block; width: 100%; height: auto; overflow: visible; }
+.moon { position: absolute; right: 13%; top: 13%; width: 22px; height: 22px; border-radius: 50%; box-shadow: -6px 3px 0 0 var(--moon-blue); transform: rotate(-25deg); }
+.star, .spark { position: absolute; width: 6px; height: 6px; background: var(--moon-lavender); transform: rotate(45deg); border-radius: 1px; }
+.star-one { left: 17%; top: 27%; }
+.star-two { left: 42%; top: 13%; width: 3px; height: 3px; background: var(--moon-mint); }
+.spark { opacity: 0; width: 8px; height: 8px; background: var(--moon-mint); }
+.spark-one { left: 22%; top: 45%; }
+.spark-two { right: 20%; top: 55%; background: var(--moon-blue); }
+.sleep { position: absolute; top: 26%; left: 25%; color: var(--moon-lavender); opacity: 0; font-size: 15px; letter-spacing: 2px; }
+.eye-sleep { display: none; }
+.scene[data-mood="resting"] .eye-open { display: none; }
+.scene[data-mood="resting"] .eye-sleep { display: block; }
+.scene[data-mood="resting"] .sleep { opacity: 1; }
+.scene[data-mood="happy"] .spark, .scene[data-mood="playful"] .spark { opacity: 1; }
+.scene[data-mood="happy"] .pet-art { animation: nuzzle 550ms ease-out 1; }
+.scene[data-mood="playful"] .pet-art { animation: hop 650ms ease-out 1; }
+.scene[data-mood="resting"] .pet-art { animation: settle 500ms ease-out 1; }
+h1 { margin: 13px 0 3px; font-size: 18px; line-height: 1.3; font-weight: 600; overflow-wrap: anywhere; text-align: center; }
+.status { margin: 0; min-height: 36px; line-height: 1.5; color: var(--vscode-descriptionForeground, #8b9bae); text-align: center; }
+.actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; margin-top: 13px; }
+.footnote { margin: 13px 0 0; font-size: 10px; line-height: 1.5; text-align: center; color: var(--vscode-descriptionForeground, #8b9bae); }
+body[data-visible="false"] *, body[data-visible="false"] *::before, body[data-visible="false"] *::after { animation: none !important; }
+@keyframes nuzzle { 30% { transform: translateX(-50%) rotate(-7deg); } 65% { transform: translateX(-50%) rotate(5deg); } }
+@keyframes hop { 35% { transform: translate(-50%, -16px) rotate(4deg); } 70% { transform: translateX(-50%) scale(1.06, 0.94); } }
+@keyframes settle { 50% { transform: translateX(-50%) scale(1.04, 0.95); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+@media (max-width: 200px) { body { padding: 10px 8px; } .actions { gap: 4px; } button { padding: 6px 3px; } .scene { min-height: 125px; } }
+@media (forced-colors: active) { .scene { border-color: CanvasText; } button { border-color: ButtonText; } }

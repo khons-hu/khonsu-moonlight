@@ -1,0 +1,43 @@
+# Your Moonlight setup
+
+The color theme works on its own. Every extra below is optional.
+
+## Editor tools
+
+Run **Moonlight: Install Recommended Extensions** to choose from the curated catalog. Core tools are preselected. Language tools, extra Git features, AI agents and upstream VS Code Pets can be added individually. The picker supports selecting all. Available extensions are skipped and failed installs are listed separately. Cancellation stops before the next install.
+
+AI extensions do not include a subscription or API credit. Installing one does not sign you in, choose your model, or change your account configuration.
+
+## Settings
+
+Run **Moonlight: Apply Optional Settings**. Pick appearance, formatting and/or the integrated terminal. Original user values are saved before modification. **Moonlight: Restore Previous Settings** restores unchanged preset values and keeps settings you have edited afterward. Workspace values still take precedence.
+
+The appearance group selects Material Icon Theme only when that extension is available. The terminal font uses JetBrains Mono Nerd Font, with Menlo and monospace fallbacks.
+
+## Pets and focus
+
+Open the Moonlight icon in the Activity Bar, or run **Moonlight: Show Pets**. Choose a moon cat, fox or robot, give it a name and choose its color. Pet, play and rest are local interactions. The companion does not read your code or call a model. Motion is brief and reduced-motion preferences are respected.
+
+**Moonlight: Start or Manage Focus Session** starts a 15, 25, 45 or 60-minute timer. Click its status-bar item to pause, resume or stop. It only runs after you start it and ends when VS Code reloads or closes.
+
+## macOS shell and fonts
+
+**Moonlight: Prepare macOS Terminal Setup** opens a terminal with a command ready to review. Press Enter yourself to run it. Homebrew must already be installed. It installs Starship, zsh-autosuggestions, zsh-syntax-highlighting and JetBrains Mono Nerd Font. It copies the Moonlight configs and appends an idempotent source block to `.zshrc`. Existing changed files are backed up under `~/.config/moonlight/backups/`.
+
+[Prepare the terminal command](command:moonlight.prepareTerminal)
+
+The script does not install Homebrew, use sudo, change your PATH, or change history retention. Open a fresh zsh terminal afterward.
+
+## Other apps and wallpaper
+
+**Moonlight: Open Setup Assets** reveals the bundled config directory:
+
+- `Khonsu Moonlight.terminal`: import in macOS Terminal > Settings > Profiles.
+- `codex-theme.txt`: copy the theme string into Codex's Appearance theme import.
+- `khonsu-moonlight.code-profile`: import through VS Code's native Profiles editor if you prefer a separate profile.
+- `moonlight-wallpaper.png`: choose it in your operating system's wallpaper settings.
+- `starship.toml`: portable Starship configuration for other operating systems.
+
+[Open setup assets](command:moonlight.openAssets)
+
+Moonlight does not patch application CSS or apply settings in other applications automatically.

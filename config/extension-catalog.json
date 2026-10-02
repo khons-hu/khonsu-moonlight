@@ -1,0 +1,22 @@
+[
+  {"id":"esbenp.prettier-vscode","label":"Prettier","description":"Format JS, TS, web files and Markdown using project rules.","group":"core","recommended":true},
+  {"id":"dbaeumer.vscode-eslint","label":"ESLint","description":"Surface JavaScript and TypeScript lint rules from your project.","group":"core","recommended":true},
+  {"id":"editorconfig.editorconfig","label":"EditorConfig","description":"Honor a repository's indentation and whitespace settings.","group":"core","recommended":true},
+  {"id":"pkief.material-icon-theme","label":"Material Icon Theme","description":"Recognizable file and folder icons. Apply separately with the appearance preset.","group":"core","recommended":true},
+  {"id":"usernamehw.errorlens","label":"Error Lens","description":"Show diagnostics beside the affected code.","group":"core","recommended":true},
+  {"id":"davidanson.vscode-markdownlint","label":"markdownlint","description":"Check READMEs, documentation and agent instructions.","group":"core","recommended":true},
+  {"id":"humao.rest-client","label":"REST Client","description":"Run HTTP requests from .http files when you invoke them.","group":"web","recommended":true},
+  {"id":"redhat.vscode-yaml","label":"YAML","description":"YAML completion and validation, including CI configs.","group":"web","recommended":true},
+  {"id":"vue.volar","label":"Vue - Official","description":"Language support for projects using Vue.","group":"web","recommended":false},
+  {"id":"bradlc.vscode-tailwindcss","label":"Tailwind CSS IntelliSense","description":"Class completion for projects with Tailwind installed.","group":"web","recommended":false},
+  {"id":"vitest.explorer","label":"Vitest","description":"Run and debug a project's Vitest tests. Requires Vitest and Node.","group":"web","recommended":false},
+  {"id":"ms-python.python","label":"Python","description":"Python language tooling. Requires your own Python interpreter.","group":"python","recommended":false},
+  {"id":"charliermarsh.ruff","label":"Ruff","description":"Python linting, formatting and import organization.","group":"python","recommended":false},
+  {"id":"ms-toolsai.jupyter","label":"Jupyter","description":"Notebook experiments and evaluation. Requires a separate kernel.","group":"python","recommended":false},
+  {"id":"github.vscode-pull-request-github","label":"GitHub Pull Requests","description":"Review PRs and issues. GitHub account features require sign-in.","group":"git","recommended":true},
+  {"id":"github.vscode-github-actions","label":"GitHub Actions","description":"Workflow support. Viewing account runs requires GitHub sign-in.","group":"git","recommended":true},
+  {"id":"eamodio.gitlens","label":"GitLens","description":"Blame and history. Some features require an account or paid Pro access.","group":"git","recommended":false},
+  {"id":"openai.chatgpt","label":"Codex","description":"OpenAI coding agent. Separate account access and usage limits apply.","group":"ai","recommended":false},
+  {"id":"anthropic.claude-code","label":"Claude Code","description":"Anthropic coding agent. A paid subscription or provider access is required.","group":"ai","recommended":false},
+  {"id":"tonybaloney.vscode-pets","label":"VS Code Pets","description":"Optional upstream animated pets, in addition to Moonlight's built-in companions.","group":"fun","recommended":false}
+]

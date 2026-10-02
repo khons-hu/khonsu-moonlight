@@ -82,5 +82,6 @@
   "terminal.integrated.letterSpacing": 0.2,
   "terminal.integrated.cursorBlinking": false,
   "terminal.integrated.cursorWidth": 2,
-  "terminal.integrated.minimumContrastRatio": 4.5
+  "terminal.integrated.minimumContrastRatio": 4.5,
+  "workbench.iconTheme": "material-icon-theme"
 }

@@ -2,10 +2,23 @@
   "recommendations": [
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
-    "EditorConfig.EditorConfig",
+    "editorconfig.editorconfig",
+    "pkief.material-icon-theme",
+    "usernamehw.errorlens",
+    "davidanson.vscode-markdownlint",
+    "humao.rest-client",
+    "redhat.vscode-yaml",
+    "vue.volar",
+    "bradlc.vscode-tailwindcss",
+    "vitest.explorer",
     "ms-python.python",
     "charliermarsh.ruff",
-    "redhat.vscode-yaml",
-    "vue.volar"
+    "ms-toolsai.jupyter",
+    "github.vscode-pull-request-github",
+    "github.vscode-github-actions",
+    "eamodio.gitlens",
+    "openai.chatgpt",
+    "anthropic.claude-code",
+    "tonybaloney.vscode-pets"
   ]
 }
