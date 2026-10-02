@@ -8,13 +8,13 @@ The package contributes one declarative color theme. It has no runtime code, act
 
 ## Install from a VSIX
 
-Download `khonsu-moonlight-0.1.0.vsix` from [GitHub Releases](https://github.com/khons-hu/khonsu-moonlight/releases). This is a GitHub release, not a Marketplace listing. To build the VSIX yourself, use the VS Code Extension Manager (`vsce`) from this directory:
+Download `khonsu-moonlight-0.2.0.vsix` from [GitHub Releases](https://github.com/khons-hu/khonsu-moonlight/releases). This is a GitHub release, not a Marketplace listing. To build the VSIX yourself, use the VS Code Extension Manager (`vsce`) from this directory:
 
 ```sh
 npx @vscode/vsce package
 ```
 
-Then in VS Code, run **Extensions: Install from VSIX...** and choose the generated `khonsu-moonlight-0.1.0.vsix`. Select **Khonsu Moonlight** from **Preferences: Color Theme**.
+Then in VS Code, run **Extensions: Install from VSIX...** and choose the generated `khonsu-moonlight-0.2.0.vsix`. Select **Khonsu Moonlight** from **Preferences: Color Theme**.
 
 ## Optional editor setup
 
@@ -22,9 +22,36 @@ After installing the theme, run **Profiles: Import Profile** and select [`config
 
 Alternatively, merge the preferences in [`config/settings.json`](config/settings.json) into your user settings. Review the values first, rather than replacing your existing file. [`config/extensions.json`](config/extensions.json) lists the suggested extensions. The theme works without any of them.
 
-The setup uses Menlo with monospace fallbacks, compact text, no minimap, bracket guides and format on explicit save. Prettier covers web files and Markdown, Ruff formats Python and organizes imports on explicit save. ESLint, EditorConfig, YAML and Vue support are recommended. Project-specific `.prettierrc`, `.editorconfig`, Ruff and workspace settings take precedence over the personal formatting defaults. VS Code does not run format-on-save for Auto Save after a short delay, so use a normal save when you want formatting.
+The editor uses Menlo with monospace fallbacks. The terminal uses JetBrains Mono Nerd Font Mono (`JetBrainsMono NFM`) at 14px, with extra line spacing and a steady line cursor. The editor has no minimap, bracket guides and format on explicit save. Prettier covers web files and Markdown, Ruff formats Python and organizes imports on explicit save. ESLint, EditorConfig, YAML and Vue support are recommended. Project-specific `.prettierrc`, `.editorconfig`, Ruff and workspace settings take precedence over the personal formatting defaults. VS Code does not run format-on-save for Auto Save after a short delay, so use a normal save when you want formatting.
 
 A matching [Codex theme import string](config/codex-theme.txt) is included. Import it under **Settings > Appearance > Dark theme > Import**. That preset was checked against the installed Codex theme format, but has not been applied or visually tested in Codex. Claude Desktop currently exposes dark mode and chat-font controls, without a custom background or palette import in the version inspected.
+
+## Optional terminal setup
+
+The terminal adds a lunar two-line [Starship](https://starship.rs/config/) prompt, shortened paths, Git branch and working-tree indicators, detected project runtimes, command duration after two seconds and the last command's failure code. Completions, muted autosuggestions and syntax highlighting come from the separate zsh setup. These shell files are optional and are not executed by the VS Code extension.
+
+On macOS with Homebrew, install the public dependencies:
+
+```sh
+brew install starship zsh-autosuggestions zsh-syntax-highlighting
+brew install --cask font-jetbrains-mono-nerd-font
+```
+
+Review [`config/starship.toml`](config/starship.toml) and [`config/moonlight.zsh`](config/moonlight.zsh), then copy them to `~/.config/starship.toml` and `~/.config/moonlight/moonlight.zsh`. Back up any existing files first. Add this to your existing `~/.zshrc`:
+
+```zsh
+if [[ -r "$HOME/.config/moonlight/moonlight.zsh" ]]; then
+  source "$HOME/.config/moonlight/moonlight.zsh"
+fi
+```
+
+Open a new terminal session. The setup keeps your PATH, history file, history sizes and history sharing settings. It ignores duplicate history entries and commands starting with a space. Homebrew plugins load only from their conventional Apple silicon or Intel locations, and missing dependencies are skipped. Starship is skipped for `TERM=dumb`. Other platforms can use the prompt config with their own Starship installation, but the optional plugin paths are macOS-specific.
+
+[`examples/terminal-demo.sh`](examples/terminal-demo.sh) prints a one-shot colour preview. It does not fabricate build output, change files or make network calls.
+
+For native macOS Terminal, import [`config/Khonsu Moonlight.terminal`](config/Khonsu%20Moonlight.terminal) through **Terminal > Settings > Profiles > Action menu > Import**. It includes matching ANSI colours and the installed font. The preset passed plist validation but has not been imported or visually tested. The screenshots show VS Code's integrated terminal.
+
+![Moonlight shell in VS Code](screenshots/terminal.png)
 
 ## Palette
 
@@ -41,4 +68,6 @@ The theme targets VS Code `^1.100.0`. Syntax coloring includes common TextMate s
 
 ## Verification
 
-Version 0.1.0 was packaged and installed in VS Code 1.140.0 on macOS Apple silicon. The theme was visually checked on the included synthetic TypeScript sample. Prettier format-on-save was checked in VS Code, and the installed Ruff formatter normalized a synthetic Python sample from its CLI. The profile format was checked against VS Code's profile resource schema. The Codex preset remains an importable file, without a live Codex appearance check.
+Version 0.1.0 was packaged and installed in VS Code 1.140.0 on macOS Apple silicon. The theme was visually checked on the included synthetic TypeScript sample. Prettier format-on-save was checked in VS Code, and the installed Ruff formatter normalized a synthetic Python sample from its CLI. The profile format was checked against VS Code's profile resource schema.
+
+Version 0.2.0 adds the terminal setup. The shell files passed syntax checks, the TOML parsed successfully, and the native Terminal preset passed plist validation. Starship 1.26.0, zsh-autosuggestions 0.7.1, zsh-syntax-highlighting 0.8.0 and Nerd Fonts 3.5.1 were installed on macOS. The live integrated terminal was checked in VS Code. The Codex and native macOS Terminal presets remain manual imports, without live appearance checks.

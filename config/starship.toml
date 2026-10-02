@@ -1,0 +1,99 @@
+# Khonsu Moonlight terminal prompt
+# Copy to ~/.config/starship.toml or set STARSHIP_CONFIG to this file.
+add_newline = false
+command_timeout = 500
+scan_timeout = 30
+palette = 'khonsu'
+format = '''
+[☾](lavender) [KHONSU](ice bold) $directory$git_branch$git_status$nodejs$python$rust$golang$java$php$ruby$cmd_duration$status
+$character'''
+
+[palettes.khonsu]
+navy = '#0B111A'
+pale = '#E8EDF2'
+ice = '#A9C7E8'
+lavender = '#B6A4DE'
+mint = '#7FC9AC'
+rose = '#F0959C'
+
+[directory]
+style = 'ice'
+format = ' [$path]($style)[$read_only]($read_only_style) '
+truncation_length = 3
+truncation_symbol = '…/'
+truncate_to_repo = true
+read_only = ' 󰌾'
+read_only_style = 'rose'
+
+[git_branch]
+symbol = ' '
+style = 'lavender'
+format = 'on [$symbol$branch]($style) '
+truncation_length = 28
+truncation_symbol = '…'
+
+[git_status]
+style = 'rose'
+format = '([$all_status$ahead_behind]($style) )'
+conflicted = '='
+ahead = '⇡${count}'
+behind = '⇣${count}'
+diverged = '⇕⇡${ahead_count}⇣${behind_count}'
+untracked = '?'
+modified = '!'
+staged = '+'
+renamed = '»'
+deleted = '✘'
+
+# These modules appear only when Starship detects the matching project/runtime.
+[nodejs]
+symbol = '⬢ '
+style = 'mint'
+format = 'via [$symbol$version]($style) '
+
+[python]
+symbol = ' '
+style = 'mint'
+format = 'via [$symbol$version]($style) '
+
+[rust]
+symbol = ' '
+style = 'mint'
+format = 'via [$symbol$version]($style) '
+
+[golang]
+symbol = ' '
+style = 'mint'
+format = 'via [$symbol$version]($style) '
+
+[java]
+symbol = ' '
+style = 'mint'
+format = 'via [$symbol$version]($style) '
+
+[php]
+symbol = ' '
+style = 'mint'
+format = 'via [$symbol$version]($style) '
+
+[ruby]
+symbol = ' '
+style = 'mint'
+format = 'via [$symbol$version]($style) '
+
+[cmd_duration]
+min_time = 2_000
+show_milliseconds = false
+style = 'lavender'
+format = 'took [$duration]($style) '
+
+[status]
+disabled = false
+symbol = '× '
+style = 'rose'
+format = '[$symbol$status]($style) '
+
+[character]
+success_symbol = '[❯](mint) '
+error_symbol = '[❯](rose) '
+vicmd_symbol = '[❮](ice) '
