@@ -64,7 +64,8 @@ function getPetHtml(webview, extensionUri, vscode, pet, nonce = randomBytes(18).
       <span class="moon" aria-hidden="true"></span>
       <span class="star star-one" aria-hidden="true"></span>
       <span class="star star-two" aria-hidden="true"></span>
-      <div id="pet-art" class="pet-art" aria-hidden="true"></div>
+      <button id="pet-art" class="pet-art" type="button" aria-label="Pet your companion" aria-describedby="pet-hint"></button>
+      <button id="toy" class="toy" type="button" aria-label="Toss the moon ball"><span aria-hidden="true"></span></button>
       <span class="spark spark-one" aria-hidden="true"></span>
       <span class="spark spark-two" aria-hidden="true"></span>
       <span class="sleep" aria-hidden="true">z z z</span>
@@ -77,6 +78,8 @@ function getPetHtml(webview, extensionUri, vscode, pet, nonce = randomBytes(18).
       <button type="button" data-action="play">Play</button>
       <button type="button" data-action="rest">Rest</button>
     </div>
+    <p id="pet-hint" class="hint">Click your companion or hold and stroke. Toss the ball to play.</p>
+    <div class="motion-controls"><button id="motion" class="subtle" type="button" aria-pressed="true">Motion on</button></div>
     <p class="footnote">Just for fun. No files, feeds or tracking.</p>
   </main>
   <script nonce="${escapeHtml(nonce)}" src="${escapeHtml(scriptUri)}"></script>
@@ -90,6 +93,7 @@ class MoonlightPetsProvider {
     this.context = context;
     this.pet = normalizePet(context.globalState.get(PET_STATE_KEY));
     this.mood = 'idle';
+    this.interactionId = 0;
     this.view = undefined;
     this.customizing = false;
   }
@@ -104,11 +108,13 @@ class MoonlightPetsProvider {
     view.webview.html = getPetHtml(view.webview, this.context.extensionUri, this.vscode, this.pet);
     const subscriptions = [
       view.webview.onDidReceiveMessage(message => {
+        if (this.view !== view) return;
         const validated = validatePetMessage(message);
         if (!validated) return;
         if (validated.type === 'ready') this.sendState();
         if (validated.type === 'interact' && view.visible) {
           this.mood = MOODS[validated.action];
+          this.interactionId = this.interactionId >= Number.MAX_SAFE_INTEGER ? 1 : this.interactionId + 1;
           this.sendState();
         }
         if (validated.type === 'customize' && view.visible) {
@@ -127,7 +133,7 @@ class MoonlightPetsProvider {
   sendState() {
     if (this.view) {
       void this.view.webview.postMessage({
-        type: 'state', pet: this.pet, mood: this.mood, visible: this.view.visible
+        type: 'state', pet: this.pet, mood: this.mood, interactionId: this.interactionId, visible: this.view.visible
       });
     }
   }

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0
+
+- Pet companions directly by clicking or holding and stroking, with keyboard button access.
+- Add gentle breathing, blinking, tail and antenna movement, affection reactions and a moon-ball chase.
+- Rest puts your companion to sleep, and direct petting wakes it.
+- Remember the local motion toggle, honor OS reduced motion and stop animations while hidden.
+- Prevent duplicated gesture actions and replayed reactions when reopening the sidebar.
+
 ## 0.4.0
 
 - Add VSCodeVim and VSCode Neovim to the optional catalog, now 22 tools.

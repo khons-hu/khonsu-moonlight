@@ -134,7 +134,7 @@ test('webview roots are limited to media and unsupported messages have no effect
   assert.equal(calls.messages.length, 0);
   assert.equal(calls.updates.length, 0);
   callbacks.message({ type: 'ready' });
-  assert.deepEqual(calls.messages[0], { type: 'state', pet: DEFAULT_PET, mood: 'idle', visible: true });
+  assert.deepEqual(calls.messages[0], { type: 'state', pet: DEFAULT_PET, mood: 'idle', interactionId: 0, visible: true });
 });
 
 test('interactions update only visual mood and hidden views ignore interaction', () => {
@@ -203,13 +203,37 @@ test('invalid customization and failed persistence cannot overwrite the current 
   assert.equal(provider.customizing, false);
 });
 
-test('webview client uses safe text rendering and no network or perpetual timer', () => {
+test('webview client keeps safe text rendering, local animation and motion guards', () => {
   const script = fs.readFileSync(path.join(__dirname, '../media/pets.js'), 'utf8');
   const css = fs.readFileSync(path.join(__dirname, '../media/pets.css'), 'utf8');
   assert.match(script, /name\.textContent = pet\.name/);
-  assert.match(script, /status\.textContent = messages\[mood\]/);
-  assert.ok(!/\b(fetch|XMLHttpRequest|WebSocket|setInterval|setTimeout|requestAnimationFrame)\s*\(/.test(script));
+  assert.match(script, /setStatus\(messages\[mood\]\)/);
+  assert.ok(!/\b(fetch|XMLHttpRequest|WebSocket|setInterval|requestAnimationFrame)\s*\(/.test(script));
   assert.match(css, /prefers-reduced-motion: reduce/);
-  assert.ok(!css.includes('infinite'));
+  assert.match(css, /body\[data-motion="false"\]/);
   assert.match(css, /body\[data-visible="false"\]/);
+});
+
+
+test('only accepted interactions advance the sequence and stale views cannot act', () => {
+  const first = fixture();
+  const provider = new MoonlightPetsProvider(first.vscode, first.context);
+  provider.resolveWebviewView(first.view);
+  first.callbacks.message({ type: 'interact', action: 'pet' });
+  first.callbacks.message({ type: 'interact', action: 'pet' });
+  assert.deepEqual(first.calls.messages.map(message => message.interactionId), [1, 2]);
+  first.callbacks.message({ type: 'ready' });
+  first.callbacks.visibility();
+  assert.equal(provider.interactionId, 2);
+  first.view.visible = false;
+  first.callbacks.message({ type: 'interact', action: 'rest' });
+  assert.equal(provider.interactionId, 2);
+  const second = fixture();
+  provider.resolveWebviewView(second.view);
+  first.view.visible = true;
+  first.callbacks.message({ type: 'interact', action: 'rest' });
+  assert.equal(provider.mood, 'happy');
+  assert.equal(provider.interactionId, 2);
+  first.callbacks.dispose();
+  assert.equal(provider.view, second.view);
 });

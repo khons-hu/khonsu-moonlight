@@ -41,6 +41,7 @@ button.subtle:hover { background: var(--vscode-toolbar-hoverBackground, #ffffff1
   position: relative;
   isolation: isolate;
   margin-top: 12px;
+  width: 100%;
   min-height: 150px;
   aspect-ratio: 1.45;
   max-height: 240px;
@@ -56,8 +57,11 @@ button.subtle:hover { background: var(--vscode-toolbar-hoverBackground, #ffffff1
   border-radius: 100%;
   background: linear-gradient(90deg, transparent, #99c7ff50, #b8a6ff50, transparent);
 }
-.pet-art { position: absolute; width: 75%; max-width: 230px; bottom: 10px; left: 50%; transform: translateX(-50%); transform-origin: 50% 85%; }
-.pet-art svg { display: block; width: 100%; height: auto; overflow: visible; }
+.pet-art { padding: 0; min-height: 0; border: 0; background: transparent; cursor: grab; touch-action: none; user-select: none; position: absolute; width: 75%; max-width: 230px; bottom: 10px; left: 50%; transform: translateX(-50%); transform-origin: 50% 85%; }
+.pet-art:hover { background: transparent; }
+.pet-art:active { cursor: grabbing; }
+.pet-art:focus-visible { outline-offset: -8px; border-radius: 40%; }
+.pet-art svg { pointer-events: none; transform-origin: 50% 90%; display: block; width: 100%; height: auto; overflow: visible; }
 .moon { position: absolute; right: 13%; top: 13%; width: 22px; height: 22px; border-radius: 50%; box-shadow: -6px 3px 0 0 var(--moon-blue); transform: rotate(-25deg); }
 .star, .spark { position: absolute; width: 6px; height: 6px; background: var(--moon-lavender); transform: rotate(45deg); border-radius: 1px; }
 .star-one { left: 17%; top: 27%; }
@@ -67,21 +71,45 @@ button.subtle:hover { background: var(--vscode-toolbar-hoverBackground, #ffffff1
 .spark-two { right: 20%; top: 55%; background: var(--moon-blue); }
 .sleep { position: absolute; top: 26%; left: 25%; color: var(--moon-lavender); opacity: 0; font-size: 15px; letter-spacing: 2px; }
 .eye-sleep { display: none; }
-.scene[data-mood="resting"] .eye-open { display: none; }
-.scene[data-mood="resting"] .eye-sleep { display: block; }
+.scene[data-mood="happy"] .eye-open, .scene[data-mood="resting"] .eye-open { display: none; }
+.scene[data-mood="happy"] .eye-sleep, .scene[data-mood="resting"] .eye-sleep { display: block; }
 .scene[data-mood="resting"] .sleep { opacity: 1; }
 .scene[data-mood="happy"] .spark, .scene[data-mood="playful"] .spark { opacity: 1; }
-.scene[data-mood="happy"] .pet-art { animation: nuzzle 550ms ease-out 1; }
-.scene[data-mood="playful"] .pet-art { animation: hop 650ms ease-out 1; }
-.scene[data-mood="resting"] .pet-art { animation: settle 500ms ease-out 1; }
+.scene[data-mood="happy"] .pet-art svg { animation: nuzzle 700ms ease-in-out 2; }
+.scene[data-mood="playful"] .pet-art { animation: chase 2400ms ease-in-out 1; }
+.scene[data-mood="playful"] .pet-art svg { animation: hop 600ms ease-in-out 4; }
+.scene[data-mood="resting"] .pet-art svg { animation: breathe 4s ease-in-out infinite; transform: scale(1.03, .94); }
+.scene[data-mood="idle"] .pet-art svg { animation: breathe 3.8s ease-in-out infinite; }
+.scene[data-mood="idle"] .eye-open { animation: blink 6s infinite; transform-box: fill-box; transform-origin: center; }
+.pet-tail { transform-box: fill-box; transform-origin: 10% 85%; animation: tail 3s ease-in-out infinite; }
+.pet-antenna { transform-box: fill-box; transform-origin: 50% 100%; animation: antenna 3s ease-in-out infinite; }
+.scene[data-mood="happy"] .pet-tail, .scene[data-stroking="true"] .pet-tail { animation: tail 450ms ease-in-out infinite; }
+.scene[data-stroking="true"][data-mood="happy"] .pet-art svg { animation: nuzzle 700ms ease-in-out infinite; }
+.scene[data-mood="resting"] .pet-tail, .scene[data-mood="resting"] .pet-antenna { animation: none; }
+.scene[data-mood="happy"] .spark { border-radius: 50% 50% 25% 50%; animation: affection 700ms ease-out 2; }
+.scene[data-stroking="true"][data-mood="happy"] .spark { animation-iteration-count: infinite; }
+.toy { position: absolute; z-index: 2; right: 9%; bottom: 19px; width: 24px; height: 24px; min-height: 0; padding: 0; border: 2px solid #d8e4f3; border-radius: 50%; background: #b8a6ff; box-shadow: 0 3px 7px #070e1980; }
+.toy span { display: block; width: 5px; height: 5px; border-radius: 50%; background: #0b111a; margin: 4px 0 0 5px; }
+.toy:hover { background: #96e6c1; }
+.scene[data-mood="playful"] .toy { animation: toss 2400ms ease-in-out 1; }
+.hint { margin: 10px 0 0; font-size: 11px; line-height: 1.5; text-align: center; color: var(--vscode-descriptionForeground, #8b9bae); }
+.motion-controls { text-align: center; margin-top: 4px; }
+button:disabled { opacity: .6; cursor: default; }
 h1 { margin: 13px 0 3px; font-size: 18px; line-height: 1.3; font-weight: 600; overflow-wrap: anywhere; text-align: center; }
 .status { margin: 0; min-height: 36px; line-height: 1.5; color: var(--vscode-descriptionForeground, #8b9bae); text-align: center; }
 .actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; margin-top: 13px; }
 .footnote { margin: 13px 0 0; font-size: 10px; line-height: 1.5; text-align: center; color: var(--vscode-descriptionForeground, #8b9bae); }
-body[data-visible="false"] *, body[data-visible="false"] *::before, body[data-visible="false"] *::after { animation: none !important; }
-@keyframes nuzzle { 30% { transform: translateX(-50%) rotate(-7deg); } 65% { transform: translateX(-50%) rotate(5deg); } }
-@keyframes hop { 35% { transform: translate(-50%, -16px) rotate(4deg); } 70% { transform: translateX(-50%) scale(1.06, 0.94); } }
-@keyframes settle { 50% { transform: translateX(-50%) scale(1.04, 0.95); } }
+body[data-visible="false"] *, body[data-visible="false"] *::before, body[data-visible="false"] *::after,
+body[data-motion="false"] *, body[data-motion="false"] *::before, body[data-motion="false"] *::after { animation: none !important; transition: none !important; }
+@keyframes breathe { 50% { transform: scale(1.015, .98); } }
+@keyframes blink { 0%, 41%, 45%, 100% { transform: scaleY(1); } 43% { transform: scaleY(.08); } }
+@keyframes tail { 50% { transform: rotate(-9deg); } }
+@keyframes antenna { 50% { transform: rotate(7deg); } }
+@keyframes nuzzle { 30% { transform: rotate(-6deg) translateY(-3px); } 65% { transform: rotate(5deg) translateY(-2px); } }
+@keyframes hop { 40% { transform: translateY(-12px) rotate(4deg); } 80% { transform: scale(1.04, .96); } }
+@keyframes chase { 30% { left: 64%; } 65% { left: 35%; } 100% { left: 50%; } }
+@keyframes toss { 25% { right: 22%; transform: translateY(-65px) rotate(170deg); } 60% { right: 78%; transform: translateY(-10px) rotate(360deg); } 80% { right: 50%; transform: translateY(-30px) rotate(460deg); } 100% { right: 9%; transform: none; } }
+@keyframes affection { from { opacity: .9; transform: translateY(4px) rotate(45deg) scale(.7); } to { opacity: .2; transform: translateY(-18px) rotate(45deg) scale(1.1); } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
-@media (max-width: 200px) { body { padding: 10px 8px; } .actions { gap: 4px; } button { padding: 6px 3px; } .scene { min-height: 125px; } }
-@media (forced-colors: active) { .scene { border-color: CanvasText; } button { border-color: ButtonText; } }
+@media (max-width: 200px) { body { padding: 10px 8px; } .actions { gap: 4px; } button { padding: 6px 3px; } .scene { min-height: 105px; } .toy { width: 22px; height: 22px; padding: 0; } }
+@media (forced-colors: active) { .scene { border-color: CanvasText; } button { border-color: ButtonText; } .toy { background: ButtonFace; } .toy span { background: ButtonText; } }
