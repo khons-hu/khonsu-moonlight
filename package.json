@@ -1,8 +1,8 @@
 {
   "name": "khonsu-moonlight",
   "displayName": "Khonsu Moonlight",
-  "description": "A midnight-navy theme with optional editor setup, curated extensions, custom pets and a focus timer.",
-  "version": "0.3.0",
+  "description": "A midnight-navy theme with optional setup, Vim and Neovim presets, custom pets and a focus timer.",
+  "version": "0.4.0",
   "publisher": "khons-hu",
   "license": "MIT",
   "repository": {
@@ -23,7 +23,9 @@
     "moonlight",
     "pets",
     "setup",
-    "focus"
+    "focus",
+    "vim",
+    "neovim"
   ],
   "contributes": {
     "themes": [
@@ -83,6 +85,11 @@
         "command": "moonlight.openAssets",
         "title": "Open Setup Assets",
         "category": "Moonlight"
+      },
+      {
+        "command": "moonlight.configureModal",
+        "title": "Configure Vim or Neovim",
+        "category": "Moonlight"
       }
     ],
     "viewsContainers": {
@@ -136,6 +143,14 @@
             }
           },
           {
+            "id": "modal",
+            "title": "Choose Vim or Neovim",
+            "description": "Configure one optional modal editing backend. Native Vim and Neovim colorschemes are included.\n[Open](command:moonlight.configureModal)",
+            "media": {
+              "markdown": "media/setup.md"
+            }
+          },
+          {
             "id": "pets",
             "title": "Meet a companion",
             "description": "Customize an optional moon cat, fox or robot.\n[Open](command:moonlight.showPets)",
@@ -179,6 +194,6 @@
   ],
   "scripts": {
     "test": "node --test tests/*.test.js",
-    "package": "npx @vscode/vsce package --allow-missing-repository --out dist/khonsu-moonlight-0.3.0.vsix"
+    "package": "npx @vscode/vsce package --allow-missing-repository --out dist/khonsu-moonlight-0.4.0.vsix"
   }
 }

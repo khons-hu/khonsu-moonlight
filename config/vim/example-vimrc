@@ -1,0 +1,15 @@
+" Optional snippet. Merge into your existing vimrc, do not replace it.
+" Copy colors/khonsu-moonlight.vim into ~/.vim/colors/ first.
+" On Windows, use your Vim user runtime directory instead (:set runtimepath?).
+" Exact colors require a truecolor-compatible terminal. If colors disappear,
+" use :set notermguicolors and the theme's terminal-color fallback.
+if exists('+termguicolors')
+  set termguicolors
+endif
+syntax enable
+colorscheme khonsu-moonlight
+
+" Optional navigation preferences, uncomment only what you want:
+" set number relativenumber
+" set cursorline
+" set signcolumn=yes

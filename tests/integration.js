@@ -16,7 +16,7 @@ async function run() {
     evidence.checks.push('Extension activates in the real VS Code extension host');
     const commands = await vscode.commands.getCommands(true);
     for (const entry of extension.packageJSON.contributes.commands) assert.ok(commands.includes(entry.command), entry.command);
-    evidence.checks.push('All ten contributed commands are registered');
+    evidence.checks.push('All contributed commands are registered');
     const data = {};
     const context = {globalState: {get: key => data[key], update: async (key, value) => {data[key] = structuredClone(value);}}};
     const original = vscode.workspace.getConfiguration().inspect('editor.fontSize').globalValue;

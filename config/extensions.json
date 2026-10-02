@@ -19,6 +19,8 @@
     "eamodio.gitlens",
     "openai.chatgpt",
     "anthropic.claude-code",
-    "tonybaloney.vscode-pets"
+    "tonybaloney.vscode-pets",
+    "vscodevim.vim",
+    "asvetliakov.vscode-neovim"
   ]
 }

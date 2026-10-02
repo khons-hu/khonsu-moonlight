@@ -1,0 +1,18 @@
+{
+  "editor.lineNumbers": "relative",
+  "vim.incsearch": true,
+  "vim.hlsearch": true,
+  "vim.cursorStylePerMode.normal": "block",
+  "vim.cursorStylePerMode.insert": "line",
+  "vim.cursorStylePerMode.visual": "block",
+  "vim.searchHighlightColor": "#B6A4DE33",
+  "vim.searchMatchColor": "#A9C7E855",
+  "vim.handleKeys": {
+    "<C-a>": false,
+    "<C-c>": false,
+    "<C-f>": false,
+    "<C-s>": false,
+    "<C-z>": false
+  },
+  "vim.disableExtension": false
+}

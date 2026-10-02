@@ -18,5 +18,7 @@
   {"id":"eamodio.gitlens","label":"GitLens","description":"Blame and history. Some features require an account or paid Pro access.","group":"git","recommended":false},
   {"id":"openai.chatgpt","label":"Codex","description":"OpenAI coding agent. Separate account access and usage limits apply.","group":"ai","recommended":false},
   {"id":"anthropic.claude-code","label":"Claude Code","description":"Anthropic coding agent. A paid subscription or provider access is required.","group":"ai","recommended":false},
-  {"id":"tonybaloney.vscode-pets","label":"VS Code Pets","description":"Optional upstream animated pets, in addition to Moonlight's built-in companions.","group":"fun","recommended":false}
+  {"id":"tonybaloney.vscode-pets","label":"VS Code Pets","description":"Optional upstream animated pets, in addition to Moonlight's built-in companions.","group":"fun","recommended":false},
+  {"id":"vscodevim.vim","label":"VSCodeVim","description":"Vim editing inside VS Code. Use instead of VSCode Neovim, with the optional Moonlight modal preset.","group":"modal","exclusiveGroup":"modal","recommended":false},
+  {"id":"asvetliakov.vscode-neovim","label":"VSCode Neovim","description":"Neovim editing inside VS Code. Requires local Neovim 0.10+ and replaces VSCodeVim.","group":"modal","exclusiveGroup":"modal","recommended":false}
 ]

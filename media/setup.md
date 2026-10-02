@@ -4,7 +4,7 @@ The color theme works on its own. Every extra below is optional.
 
 ## Editor tools
 
-Run **Moonlight: Install Recommended Extensions** to choose from the curated catalog. Core tools are preselected. Language tools, extra Git features, AI agents and upstream VS Code Pets can be added individually. The picker supports selecting all. Available extensions are skipped and failed installs are listed separately. Cancellation stops before the next install.
+Run **Moonlight: Install Recommended Extensions** to choose from the curated catalog. Core tools are preselected. Language tools, extra Git features, AI agents, Vim or Neovim and upstream VS Code Pets can be added individually. The 22-tool picker supports selecting all. Selecting both Vim and Neovim opens a second choice so only one backend is installed. Disable an enabled conflicting backend before switching. Available extensions are skipped and failed installs are listed separately. Cancellation stops before the next install.
 
 AI extensions do not include a subscription or API credit. Installing one does not sign you in, choose your model, or change your account configuration.
 
@@ -13,6 +13,18 @@ AI extensions do not include a subscription or API credit. Installing one does n
 Run **Moonlight: Apply Optional Settings**. Pick appearance, formatting and/or the integrated terminal. Original user values are saved before modification. **Moonlight: Restore Previous Settings** restores unchanged preset values and keeps settings you have edited afterward. Workspace values still take precedence.
 
 The appearance group selects Material Icon Theme only when that extension is available. The terminal font uses JetBrains Mono Nerd Font, with Menlo and monospace fallbacks.
+
+## Vim or Neovim
+
+Choose one backend per profile. **VSCodeVim** works without a native editor. **VSCode Neovim** needs Neovim 0.10+ installed locally. On macOS with Homebrew, use `brew install neovim`. If the executable is not found, set the user-level VSCode Neovim executable path, such as `/opt/homebrew/bin/nvim`, then restart that extension.
+
+Run **Moonlight: Configure Vim or Neovim** after enabling the chosen extension. The Vim preset uses relative line numbers, mode cursors and Moonlight search colors, while retaining common VS Code Ctrl shortcuts. The Neovim preset keeps Ctrl-C with VS Code in insert mode. Settings can be restored with the usual backup command. Moonlight checks the user-level Neovim executable only on this command in a trusted workspace.
+
+Separate `khonsu-moonlight-vim.code-profile` and `khonsu-moonlight-neovim.code-profile` files are bundled. Import one through VS Code's Profiles editor, then switch profiles when you want the other backend. The generic profile enables neither.
+
+For native editors, `vim/colors/khonsu-moonlight.vim` and `nvim/colors/khonsu-moonlight.lua` contain original Moonlight colorschemes. Copy the chosen color file into your editor's user `colors` directory. Merge the matching example snippet into your existing vimrc/init.lua. Back up existing files first. The Neovim example guards its native UI block with `if not vim.g.vscode`. No dotfiles or external plugins are changed by the extension.
+
+[Configure a modal editor](command:moonlight.configureModal)
 
 ## Pets and focus
 

@@ -1,0 +1,15 @@
+{
+  "editor.lineNumbers": "relative",
+  "vscode-neovim.ctrlKeysForInsertMode": [
+    "a",
+    "d",
+    "h",
+    "j",
+    "m",
+    "o",
+    "r",
+    "t",
+    "u",
+    "w"
+  ]
+}

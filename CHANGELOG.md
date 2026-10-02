@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0
+
+- Add VSCodeVim and VSCode Neovim to the optional catalog, now 22 tools.
+- Resolve select-all to one modal backend and block installation over an enabled conflicting editor.
+- Add backed-up Vim and Neovim settings, with separate optional VS Code profiles.
+- Bundle original native Vim and Neovim colorschemes with terminal fallbacks and config snippets.
+- Check Neovim 0.10+ only on an explicit setup command in a trusted workspace.
+
 ## 0.3.0
 
 - Add a selective installer for 20 public VS Code extensions, with progress, cancellation and install results.

@@ -5,6 +5,7 @@ const { registerInstaller } = require('./installer');
 const { registerPreset } = require('./preset');
 const { registerFocus } = require('./focus');
 const { registerPets } = require('./pets');
+const { registerModal } = require('./modal');
 const catalog = require('../config/extension-catalog.json');
 const settings = require('../config/settings.json');
 
@@ -15,12 +16,14 @@ function activate(context) {
   registerPreset(vscode, context, settings);
   registerFocus(vscode, context);
   registerPets(vscode, context);
+  registerModal(vscode, context, catalog);
   const guide = vscode.Uri.joinPath(context.extensionUri, 'media', 'setup.md');
   context.subscriptions.push(
     vscode.commands.registerCommand('moonlight.setup', async () => {
       const choice = await vscode.window.showQuickPick([
         { label: 'Install recommended extensions', description: 'Choose individual tools, including optional extras', command: 'moonlight.installExtensions' },
         { label: 'Apply Moonlight settings', description: 'Choose appearance, formatting and terminal presets', command: 'moonlight.applyPreset' },
+        { label: 'Vim or Neovim editing', description: 'Configure one optional modal editing backend', command: 'moonlight.configureModal' },
         { label: 'Meet your Moonlight pet', description: 'Customize a cat, fox or robot', command: 'moonlight.showPets' },
         { label: 'Start a focus session', description: 'A small local timer in the status bar', command: 'moonlight.focus' },
         { label: 'Terminal, fonts and wallpaper', description: 'Open the optional setup guide', command: 'moonlight.openGuide' },
