@@ -1,0 +1,6 @@
+config/**
+screenshots/**
+.git/**
+.DS_Store
+examples/**
+.vscodeignore
