@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.1
+
+- Publish the 0.2.1 VSIX with current manual installation instructions.
+- Include the detailed screenshot gallery in the package documentation.
+- Add a lunar logo, matching Marketplace banner and public issue link.
+- Keep the color theme unchanged and the editor and shell setup optional.
+
 ## 0.2.0
 
 - Add an optional two-line Starship prompt, zsh completions, autosuggestions and syntax colours.

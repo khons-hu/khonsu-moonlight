@@ -1,5 +1,7 @@
 # Khonsu Moonlight
 
+![Khonsu Moonlight logo](icon.png)
+
 A dark Visual Studio Code color theme built around a midnight-navy editor, pale text, and a small set of cool accents. Ice blue marks focus and links, muted lavender carries language structure, mint distinguishes strings and additions, and muted rose marks removals and errors. Warm sand highlights literals and types so common syntax remains easy to scan.
 
 The package contributes one declarative color theme. It has no runtime code, activation events, injected styles, wallpaper, or extension dependencies. Workbench surfaces stay close to the editor background, with restrained borders and clear selection states.
@@ -22,19 +24,23 @@ The shipped public profile uses JetBrains Mono Nerd Font at 14 px in the termina
 
 [![Public font and formatter settings](screenshots/settings-details.png)](screenshots/settings-details.png)
 
-## Install from a VSIX
+## Install
 
-Download `khonsu-moonlight-0.2.0.vsix` from [GitHub Releases](https://github.com/khons-hu/khonsu-moonlight/releases). This is a GitHub release, not a Marketplace listing. To build the VSIX yourself, use the VS Code Extension Manager (`vsce`) from this directory:
+Download the [0.2.1 VSIX](https://github.com/khons-hu/khonsu-moonlight/raw/v0.2.1/dist/khonsu-moonlight-0.2.1.vsix). In VS Code, run **Extensions: Install from VSIX...** and choose the downloaded file.
+
+Select **Khonsu Moonlight** from **Preferences: Color Theme**.
+
+The current package is distributed here while Marketplace onboarding is in progress. [Earlier GitHub Releases](https://github.com/khons-hu/khonsu-moonlight/releases) remain available.
+
+To build the current version yourself, use the VS Code Extension Manager (`vsce`) from this directory:
 
 ```sh
 npx @vscode/vsce package
 ```
 
-Then in VS Code, run **Extensions: Install from VSIX...** and choose the generated `khonsu-moonlight-0.2.0.vsix`. Select **Khonsu Moonlight** from **Preferences: Color Theme**.
-
 ## Optional editor setup
 
-After installing the theme, run **Profiles: Import Profile** and select [`config/khonsu-moonlight.code-profile`](config/khonsu-moonlight.code-profile) to create a separate profile with the optional settings and language extensions. Install the VSIX in that profile too, because the theme is not in the Marketplace. The profile contains only editor settings and a list of public extensions. It does not include account data, workspace history, MCP servers or credentials.
+After installing the theme, run **Profiles: Import Profile** and select [`config/khonsu-moonlight.code-profile`](config/khonsu-moonlight.code-profile) to create a separate profile with the optional settings and language extensions. Install Khonsu Moonlight in that profile too. The profile contains only editor settings and a list of public extensions. It does not include account data, workspace history, MCP servers or credentials.
 
 Alternatively, merge the preferences in [`config/settings.json`](config/settings.json) into your user settings. Review the values first, rather than replacing your existing file. [`config/extensions.json`](config/extensions.json) lists the suggested extensions. The theme works without any of them.
 

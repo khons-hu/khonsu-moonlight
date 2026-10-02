@@ -2,7 +2,7 @@
   "name": "khonsu-moonlight",
   "displayName": "Khonsu Moonlight",
   "description": "A restrained midnight-navy VS Code theme with ice-blue, lavender, and mint accents.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "publisher": "khons-hu",
   "license": "MIT",
   "repository": {
@@ -29,5 +29,15 @@
         "path": "./themes/khonsu-moonlight-color-theme.json"
       }
     ]
-  }
+  },
+  "homepage": "https://github.com/khons-hu/khonsu-moonlight#readme",
+  "bugs": {
+    "url": "https://github.com/khons-hu/khonsu-moonlight/issues"
+  },
+  "galleryBanner": {
+    "color": "#0B111A",
+    "theme": "dark"
+  },
+  "pricing": "Free",
+  "icon": "icon.png"
 }
