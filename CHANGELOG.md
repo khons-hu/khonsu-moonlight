@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.2
+
+- Add direct Marketplace installation and keep a manual VSIX option.
+- Keep the logo, color theme and optional editor and terminal setup unchanged.
+
 ## 0.2.1
 
 - Publish the 0.2.1 VSIX with current manual installation instructions.

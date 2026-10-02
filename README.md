@@ -26,11 +26,15 @@ The shipped public profile uses JetBrains Mono Nerd Font at 14 px in the termina
 
 ## Install
 
-Download the [0.2.1 VSIX](https://github.com/khons-hu/khonsu-moonlight/raw/v0.2.1/dist/khonsu-moonlight-0.2.1.vsix). In VS Code, run **Extensions: Install from VSIX...** and choose the downloaded file.
+Install [Khonsu Moonlight from the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=khons-hu.khonsu-moonlight), or search for **Khonsu Moonlight** in VS Code's Extensions view.
+
+```sh
+code --install-extension khons-hu.khonsu-moonlight
+```
 
 Select **Khonsu Moonlight** from **Preferences: Color Theme**.
 
-The current package is distributed here while Marketplace onboarding is in progress. [Earlier GitHub Releases](https://github.com/khons-hu/khonsu-moonlight/releases) remain available.
+For manual installation, download the [0.2.2 VSIX](https://github.com/khons-hu/khonsu-moonlight/raw/v0.2.2/dist/khonsu-moonlight-0.2.2.vsix), then run **Extensions: Install from VSIX...** and choose the file. [GitHub Releases](https://github.com/khons-hu/khonsu-moonlight/releases) include the source and release notes.
 
 To build the current version yourself, use the VS Code Extension Manager (`vsce`) from this directory:
 
