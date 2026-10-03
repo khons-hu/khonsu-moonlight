@@ -2,7 +2,7 @@
   "name": "khonsu-moonlight",
   "displayName": "Khonsu Moonlight",
   "description": "A midnight-navy theme with optional setup, Vim and Neovim presets, interactive animated pets and a focus timer.",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "publisher": "khons-hu",
   "license": "MIT",
   "repository": {
@@ -62,6 +62,12 @@
         "category": "Moonlight"
       },
       {
+        "command": "moonlight.hidePets",
+        "title": "Hide Pets",
+        "category": "Moonlight",
+        "icon": "$(close)"
+      },
+      {
         "command": "moonlight.customizePet",
         "title": "Customize Pet",
         "category": "Moonlight"
@@ -107,7 +113,8 @@
           "type": "webview",
           "id": "moonlight.pets",
           "name": "Moonlight Pets",
-          "contextualTitle": "Moonlight"
+          "contextualTitle": "Moonlight",
+          "when": "config.moonlight.pets.enabled"
         }
       ]
     },
@@ -117,6 +124,11 @@
           "command": "moonlight.customizePet",
           "when": "view == moonlight.pets",
           "group": "navigation"
+        },
+        {
+          "command": "moonlight.hidePets",
+          "when": "view == moonlight.pets",
+          "group": "navigation@2"
         }
       ]
     },
@@ -176,7 +188,18 @@
           }
         ]
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Moonlight",
+      "properties": {
+        "moonlight.pets.enabled": {
+          "type": "boolean",
+          "default": false,
+          "scope": "application",
+          "markdownDescription": "Show the optional companion sidebar. Use **Moonlight: Show Pets** to enable it or **Moonlight: Hide Pets** to hide it. Your companion customization is kept."
+        }
+      }
+    }
   },
   "homepage": "https://github.com/khons-hu/khonsu-moonlight#readme",
   "bugs": {
@@ -194,6 +217,11 @@
   ],
   "scripts": {
     "test": "node --test tests/*.test.js",
-    "package": "npx @vscode/vsce package --allow-missing-repository --out dist/khonsu-moonlight-0.6.0.vsix"
+    "package": "npx @vscode/vsce package --allow-missing-repository --out dist/khonsu-moonlight-0.7.0.vsix",
+    "test:theme": "node tests/theme-python.js"
+  },
+  "devDependencies": {
+    "vscode-oniguruma": "2.0.1",
+    "vscode-textmate": "9.3.2"
   }
 }

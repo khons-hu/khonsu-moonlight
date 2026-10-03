@@ -2,6 +2,7 @@
   "$schema": "vscode://schemas/color-theme",
   "name": "Khonsu Moonlight",
   "type": "dark",
+  "semanticHighlighting": true,
   "colors": {
     "focusBorder": "#789FC7",
     "foreground": "#E8EDF2",
@@ -51,12 +52,12 @@
     "badge.foreground": "#E8EDF2",
     "progressBar.background": "#A9C7E8",
     "list.activeSelectionBackground": "#243B52",
-    "list.activeSelectionForeground": "#F2F6FA",
+    "list.activeSelectionForeground": "#D4DFEA",
     "list.inactiveSelectionBackground": "#1A2A3B",
-    "list.inactiveSelectionForeground": "#E8EDF2",
+    "list.inactiveSelectionForeground": "#BECAD7",
     "list.hoverBackground": "#172433",
     "list.focusBackground": "#1D3044",
-    "list.focusForeground": "#F2F6FA",
+    "list.focusForeground": "#D4DFEA",
     "list.highlightForeground": "#D1E2F5",
     "list.invalidItemForeground": "#F0959C",
     "list.errorForeground": "#F0959C",
@@ -71,11 +72,11 @@
     "activityBarBadge.background": "#789FC7",
     "activityBarBadge.foreground": "#0B111A",
     "sideBar.background": "#0E1621",
-    "sideBar.foreground": "#DCE5EE",
+    "sideBar.foreground": "#AAB8C7",
     "sideBar.border": "#182433",
-    "sideBarTitle.foreground": "#C7D5E3",
+    "sideBarTitle.foreground": "#B1BDCC",
     "sideBarSectionHeader.background": "#111C29",
-    "sideBarSectionHeader.foreground": "#C7D5E3",
+    "sideBarSectionHeader.foreground": "#B1BDCC",
     "sideBarSectionHeader.border": "#182433",
     "titleBar.activeBackground": "#0B111A",
     "titleBar.activeForeground": "#DCE5EE",
@@ -210,16 +211,18 @@
     "panelSectionHeader.background": "#111C29",
     "panelSectionHeader.foreground": "#DCE5EE",
     "panelSectionHeader.border": "#182433",
-    "statusBar.background": "#101A26",
-    "statusBar.foreground": "#DCE5EE",
-    "statusBar.border": "#182433",
+    "statusBar.background": "#080E16",
+    "statusBar.foreground": "#AAB8C7",
+    "statusBar.border": "#334356",
     "statusBar.debuggingBackground": "#30291B",
     "statusBar.debuggingForeground": "#F2F6FA",
-    "statusBar.noFolderBackground": "#101A26",
-    "statusBar.noFolderForeground": "#DCE5EE",
+    "statusBar.noFolderBackground": "#080E16",
+    "statusBar.noFolderForeground": "#AAB8C7",
+    "statusBar.noFolderBorder": "#334356",
+    "statusBar.debuggingBorder": "#6B5A36",
     "statusBarItem.hoverBackground": "#243B52",
-    "statusBarItem.remoteBackground": "#29435F",
-    "statusBarItem.remoteForeground": "#F2F6FA",
+    "statusBarItem.remoteBackground": "#182A3D",
+    "statusBarItem.remoteForeground": "#C7D5E3",
     "statusBarItem.prominentBackground": "#243B52",
     "statusBarItem.prominentForeground": "#F2F6FA",
     "statusBarItem.errorBackground": "#6B303A",
@@ -351,7 +354,7 @@
     },
     {
       "name": "Function names and calls",
-      "scope": ["entity.name.function", "support.function", "meta.function-call entity.name.function"],
+      "scope": ["entity.name.function", "support.function", "meta.function-call entity.name.function", "meta.function-call.generic.python"],
       "settings": {"foreground": "#83C7D8"}
     },
     {
@@ -365,9 +368,14 @@
       "settings": {"foreground": "#A9C7E8"}
     },
     {
-      "name": "Variables and parameters",
+      "name": "Variables",
       "scope": ["variable", "variable.other", "meta.definition.variable", "meta.parameter"],
       "settings": {"foreground": "#C7D5E3"}
+    },
+    {
+      "name": "Function parameters",
+      "scope": ["variable.parameter", "variable.parameter.function-call.python"],
+      "settings": {"foreground": "#D9B38C"}
     },
     {
       "name": "Language special variables",
@@ -376,12 +384,12 @@
     },
     {
       "name": "Properties and object keys",
-      "scope": ["variable.other.property", "variable.other.object", "meta.object-literal.key", "support.type.property-name"],
+      "scope": ["variable.other.property", "variable.other.object", "meta.object-literal.key", "support.type.property-name", "meta.attribute.python"],
       "settings": {"foreground": "#A9C7E8"}
     },
     {
       "name": "Decorators and annotations",
-      "scope": ["meta.decorator", "punctuation.decorator", "storage.type.annotation"],
+      "scope": ["meta.decorator", "punctuation.decorator", "storage.type.annotation", "entity.name.function.decorator.python", "punctuation.definition.decorator.python"],
       "settings": {"foreground": "#B6A4DE"}
     },
     {
@@ -481,7 +489,7 @@
     "function": "#83C7D8",
     "method": "#83C7D8",
     "macro": "#B6A4DE",
-    "parameter": "#C7D5E3",
+    "parameter": "#D9B38C",
     "variable": "#C7D5E3",
     "property": "#A9C7E8",
     "enumMember": "#B6A4DE",

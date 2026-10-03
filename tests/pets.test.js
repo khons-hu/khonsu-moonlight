@@ -5,18 +5,19 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const {
-  registerPets, MoonlightPetsProvider, PET_STATE_KEY, DEFAULT_PET,
+  registerPets, MoonlightPetsProvider, PET_STATE_KEY, PET_ENABLED_SETTING, DEFAULT_PET,
   isValidPetName, isValidPetColor, isValidPet, normalizePet, validatePetMessage, escapeHtml, getPetHtml
 } = require('../src/pets');
 
 function fixture(storedPet) {
-  const calls = { registeredViews: [], registeredCommands: new Map(), updates: [], messages: [], focus: [], errors: [] };
+  const calls = { registeredViews: [], registeredCommands: new Map(), updates: [], configurationUpdates: [], messages: [], focus: [], errors: [] };
   const disposable = () => ({ dispose() {} });
   const uri = {
     joinPath(base, ...parts) { return `${base}/${parts.join('/')}`; }
   };
   const vscode = {
     Uri: uri,
+    ConfigurationTarget: { Global: 'global' },
     window: {
       registerWebviewViewProvider(id, provider) { calls.registeredViews.push({ id, provider }); return disposable(); },
       async showQuickPick() {},
@@ -26,6 +27,12 @@ function fixture(storedPet) {
     commands: {
       registerCommand(id, callback) { calls.registeredCommands.set(id, callback); return disposable(); },
       async executeCommand(id) { calls.focus.push(id); }
+    },
+    workspace: {
+      getConfiguration(section) {
+        assert.equal(section, 'moonlight.pets');
+        return { async update(key, value, target) { calls.configurationUpdates.push({ key, value, target }); } };
+      }
     }
   };
   const context = {
@@ -102,7 +109,7 @@ test('HTML escapes text and state, with nonce scripts and local styles only', ()
   assert.ok(!html.includes('https:'));
   assert.match(html, /<script nonce="test-nonce" src="vscode-webview:/);
   assert.match(html, /<link href="vscode-webview:/);
-  assert.equal((html.match(/<script/g) || []).length, 1);
+  assert.equal((html.match(/<script/g) || []).length, 2);
   assert.equal(escapeHtml(`&<>"'`), '&amp;&lt;&gt;&quot;&#39;');
 });
 
@@ -113,15 +120,28 @@ test('HTML generates a fresh nonce for each webview document', () => {
   assert.notEqual(first.match(/<script nonce="([^"]+)"/)[1], second.match(/<script nonce="([^"]+)"/)[1]);
 });
 
-test('registration contributes one provider and both command callbacks', async () => {
+test('registration contributes the provider and show, hide, and customize commands', async () => {
   const { vscode, context, calls } = fixture();
   const provider = registerPets(vscode, context);
   assert.equal(calls.registeredViews[0].id, 'moonlight.pets');
   assert.equal(calls.registeredViews[0].provider, provider);
-  assert.deepEqual([...calls.registeredCommands.keys()], ['moonlight.showPets', 'moonlight.customizePet']);
-  assert.equal(context.subscriptions.length, 3);
+  assert.deepEqual([...calls.registeredCommands.keys()], ['moonlight.showPets', 'moonlight.hidePets', 'moonlight.customizePet']);
+  assert.equal(context.subscriptions.length, 4);
   await calls.registeredCommands.get('moonlight.showPets')();
+  assert.deepEqual(calls.configurationUpdates, [{ key: 'enabled', value: true, target: 'global' }]);
   assert.deepEqual(calls.focus, ['moonlight.pets.focus']);
+  assert.equal(PET_ENABLED_SETTING, 'moonlight.pets.enabled');
+});
+
+test('Hide Pets disables the view while preserving the saved companion', async () => {
+  const saved = { species: 'fox', name: 'Comet', color: '#96E6C1' };
+  const { vscode, context, calls } = fixture(saved);
+  const provider = registerPets(vscode, context);
+  await calls.registeredCommands.get('moonlight.hidePets')();
+  assert.deepEqual(calls.configurationUpdates, [{ key: 'enabled', value: false, target: 'global' }]);
+  assert.deepEqual(provider.pet, saved);
+  assert.deepEqual(calls.updates, []);
+  assert.deepEqual(calls.focus, []);
 });
 
 test('webview roots are limited to media and unsupported messages have no effect', () => {
@@ -252,8 +272,7 @@ test('webview client keeps safe text rendering, local animation and motion guard
   const script = fs.readFileSync(path.join(__dirname, '../media/pets.js'), 'utf8');
   const css = fs.readFileSync(path.join(__dirname, '../media/pets.css'), 'utf8');
   assert.match(script, /name\.textContent = pet\.name/);
-  assert.match(script, /setStatus\(messages\[mood\]\)/);
-  assert.ok(!/\b(fetch|XMLHttpRequest|WebSocket|setInterval|requestAnimationFrame)\s*\(/.test(script));
+  assert.ok(!/\b(fetch|XMLHttpRequest|WebSocket|setInterval)\s*\(/.test(script));
   assert.match(css, /prefers-reduced-motion: reduce/);
   assert.match(css, /body\[data-motion="false"\]/);
   assert.match(css, /body\[data-visible="false"\]/);

@@ -3,6 +3,7 @@
 const { randomBytes } = require('node:crypto');
 
 const PET_STATE_KEY = 'moonlight.pet';
+const PET_ENABLED_SETTING = 'moonlight.pets.enabled';
 const PET_CHOICES = Object.freeze([
   { label: 'Moon cat', description: 'Curious and quietly cosmic', value: 'cat', name: 'Luna' },
   { label: 'Moon fox', description: 'A small spark of mischief', value: 'fox', name: 'Nova' },
@@ -56,6 +57,7 @@ function escapeHtml(value) {
 function getPetHtml(webview, extensionUri, vscode, pet, nonce = randomBytes(18).toString('base64')) {
   const styleUri = webview.asWebviewUri(vscode.Uri.joinPath(extensionUri, 'media', 'pets.css'));
   const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(extensionUri, 'media', 'pets.js'));
+  const motionUri = webview.asWebviewUri(vscode.Uri.joinPath(extensionUri, 'media', 'pet-motion.js'));
   const csp = `default-src 'none'; base-uri 'none'; form-action 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';`;
   return `<!DOCTYPE html>
 <html lang="en">
@@ -73,24 +75,24 @@ function getPetHtml(webview, extensionUri, vscode, pet, nonce = randomBytes(18).
       <span class="moon" aria-hidden="true"></span>
       <span class="star star-one" aria-hidden="true"></span>
       <span class="star star-two" aria-hidden="true"></span>
-      <button id="pet-art" class="pet-art" type="button" aria-label="Pet your companion" aria-describedby="pet-hint"></button>
-      <button id="toy" class="toy" type="button" aria-label="Toss the moon ball"><span aria-hidden="true"></span></button>
-      <span class="spark spark-one" aria-hidden="true"></span>
-      <span class="spark spark-two" aria-hidden="true"></span>
-      <span class="sleep" aria-hidden="true">z z z</span>
+      <button id="nap-pad" class="nap-pad" type="button" aria-label="Rest on the cushion" aria-describedby="pet-hint"><span aria-hidden="true">☾</span></button>
+      <div id="pet-position" class="pet-position">
+        <button id="pet-art" class="pet-art" type="button" aria-label="Pet your companion" aria-describedby="pet-hint"></button>
+        <span class="spark spark-one" aria-hidden="true"></span>
+        <span class="spark spark-two" aria-hidden="true"></span>
+        <span class="sleep" aria-hidden="true">z z z</span>
+      </div>
+      <button id="toy" class="toy" type="button" aria-label="Throw the moon ball" aria-describedby="pet-hint"><span aria-hidden="true"></span></button>
       <div class="ground" aria-hidden="true"></div>
     </section>
     <h1 id="pet-name">${escapeHtml(normalizePet(pet).name)}</h1>
     <p id="pet-status" class="status" role="status" aria-live="polite">Ready to keep you company.</p>
-    <div class="actions" role="group" aria-label="Companion actions">
-      <button type="button" data-action="pet">Pet</button>
-      <button type="button" data-action="play">Play</button>
-      <button type="button" data-action="rest">Rest</button>
-    </div>
-    <p id="pet-hint" class="hint">Click your companion or hold and stroke. Toss the ball to play.</p>
+    <p id="pet-hint" class="hint">Stroke to pet. Drag to carry. Flick the ball.<br>Tap the cushion for a nap.</p>
+    <p class="keyboard-hint">Keyboard: Tab to a scene object, then Enter or Space.</p>
     <div class="motion-controls"><button id="motion" class="subtle" type="button" aria-pressed="true">Motion on</button></div>
     <p class="footnote">Just for fun. No files, feeds or tracking.</p>
   </main>
+  <script nonce="${escapeHtml(nonce)}" src="${escapeHtml(motionUri)}"></script>
   <script nonce="${escapeHtml(nonce)}" src="${escapeHtml(scriptUri)}"></script>
 </body>
 </html>`;
@@ -148,7 +150,14 @@ class MoonlightPetsProvider {
   }
 
   async show() {
+    await this.vscode.workspace.getConfiguration('moonlight.pets')
+      .update('enabled', true, this.vscode.ConfigurationTarget.Global);
     await this.vscode.commands.executeCommand('moonlight.pets.focus');
+  }
+
+  async hide() {
+    await this.vscode.workspace.getConfiguration('moonlight.pets')
+      .update('enabled', false, this.vscode.ConfigurationTarget.Global);
   }
 
   async customize() {
@@ -203,12 +212,13 @@ function registerPets(vscode, context) {
   context.subscriptions.push(
     vscode.window.registerWebviewViewProvider('moonlight.pets', provider),
     vscode.commands.registerCommand('moonlight.showPets', () => provider.show()),
+    vscode.commands.registerCommand('moonlight.hidePets', () => provider.hide()),
     vscode.commands.registerCommand('moonlight.customizePet', () => provider.customize().catch(() => provider.reportSaveError()))
   );
   return provider;
 }
 
 module.exports = {
-  registerPets, MoonlightPetsProvider, PET_STATE_KEY, PET_SPECIES, PET_COLORS, DEFAULT_PET,
+  registerPets, MoonlightPetsProvider, PET_STATE_KEY, PET_ENABLED_SETTING, PET_SPECIES, PET_COLORS, DEFAULT_PET,
   isValidPetName, isValidPetColor, isValidPet, normalizePet, validatePetMessage, escapeHtml, getPetHtml
 };

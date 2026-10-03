@@ -31,8 +31,20 @@ async function run() {
       assert.equal(vscode.workspace.getConfiguration().inspect('editor.fontSize').globalValue, original);
       evidence.checks.push('Restore recovers original settings and removes previously unset values');
     }
-    await vscode.commands.executeCommand('moonlight.showPets');
-    evidence.checks.push('Moonlight pet view opens without an extension-host error');
+    const pets = vscode.workspace.getConfiguration('moonlight.pets');
+    const originalPets = pets.inspect('enabled').globalValue;
+    assert.equal(pets.inspect('enabled').defaultValue, false);
+    assert.equal(extension.packageJSON.contributes.views.moonlight[0].when, 'config.moonlight.pets.enabled');
+    try {
+      await vscode.commands.executeCommand('moonlight.showPets');
+      assert.equal(vscode.workspace.getConfiguration('moonlight.pets').get('enabled'), true);
+      evidence.checks.push('Show Pets enables the hidden-by-default view and opens it in VS Code');
+      await vscode.commands.executeCommand('moonlight.hidePets');
+      assert.equal(vscode.workspace.getConfiguration('moonlight.pets').get('enabled'), false);
+      evidence.checks.push('Hide Pets disables the view using the real configuration API');
+    } finally {
+      await pets.update('enabled', originalPets, vscode.ConfigurationTarget.Global);
+    }
     evidence.status = 'passed';
   } catch (error) {
     evidence.status = 'failed'; evidence.error = error.stack || String(error);

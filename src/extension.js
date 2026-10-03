@@ -24,7 +24,7 @@ function activate(context) {
         { label: 'Install recommended extensions', description: 'Choose individual tools, including optional extras', command: 'moonlight.installExtensions' },
         { label: 'Apply Moonlight settings', description: 'Choose appearance, formatting and terminal presets', command: 'moonlight.applyPreset' },
         { label: 'Vim or Neovim editing', description: 'Configure one optional modal editing backend', command: 'moonlight.configureModal' },
-        { label: 'Meet your Moonlight pet', description: 'Customize a cat, fox or robot', command: 'moonlight.showPets' },
+        { label: 'Meet your Moonlight pet', description: 'Choose an optional companion', command: 'moonlight.showPets' },
         { label: 'Start a focus session', description: 'A small local timer in the status bar', command: 'moonlight.focus' },
         { label: 'Terminal, fonts and wallpaper', description: 'Open the optional setup guide', command: 'moonlight.openGuide' },
         { label: 'Restore previous settings', description: 'Restore settings changed by the preset', command: 'moonlight.restorePreset' }

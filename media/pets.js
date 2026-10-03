@@ -16,13 +16,11 @@
   let hasHostState = false;
   let hostVisible = true;
   let reactionTimer;
-  let pointer;
-  let suppressPointerClick = false;
   let motionEnabled = vscode.getState()?.motionEnabled !== false;
 
   // All artwork is original, fixed local SVG markup. Only a validated hex color is interpolated.
-  const eyes = `<g class="eye-open" fill="#0b111a"><ellipse cx="90" cy="100" rx="4" ry="6"/><ellipse cx="130" cy="100" rx="4" ry="6"/><circle cx="91" cy="98" r="1.3" fill="#fff"/><circle cx="131" cy="98" r="1.3" fill="#fff"/></g><g class="eye-sleep" fill="none" stroke="#0b111a" stroke-width="3.5" stroke-linecap="round"><path d="M84 100q6 5 12 0M124 100q6 5 12 0"/></g>`;
-  const frame = body => `<svg viewBox="0 0 220 190" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true"><ellipse cx="110" cy="177" rx="67" ry="7" fill="#070e19" opacity=".6"/>${body}</svg>`;
+  const eyes = `<g class="pet-gaze"><g class="eye-open" fill="#0b111a"><ellipse cx="90" cy="100" rx="4" ry="6"/><ellipse cx="130" cy="100" rx="4" ry="6"/><circle cx="91" cy="98" r="1.3" fill="#fff"/><circle cx="131" cy="98" r="1.3" fill="#fff"/></g><g class="eye-sleep" fill="none" stroke="#0b111a" stroke-width="3.5" stroke-linecap="round"><path d="M84 100q6 5 12 0M124 100q6 5 12 0"/></g></g>`;
+  const frame = body => `<svg viewBox="0 0 220 190" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true"><ellipse cx="110" cy="177" rx="67" ry="7" fill="#070e19" opacity=".6"/><g class="pet-body">${body}</g></svg>`;
   function petSvg(pet) {
     const color = pet.color;
     if (pet.species === 'penguin') return frame(`
@@ -95,160 +93,280 @@
       <rect x="78" y="163" width="27" height="14" rx="7" fill="${color}"/><rect x="115" y="163" width="27" height="14" rx="7" fill="${color}"/>`);
   }
 
+  const position = document.getElementById('pet-position');
+  const toy = document.getElementById('toy');
+  const pad = document.getElementById('nap-pad');
+  const motion = window.MoonlightMotion;
+  const bounds = scene.getBoundingClientRect();
+  const world = motion.create(bounds.width, bounds.height);
+  const pendingActions = [];
+  const gaze = { x: 0, y: 0, tx: 0, ty: 0, lean: 0, targetLean: 0 };
+  const suppressedClicks = new Set();
+  let gesture;
+  let frameId;
+  let lastFrame;
+  let disposed = false;
+  let previousPetX = world.pet.x;
+
   function validPet(pet) {
     return pet && typeof pet === 'object' && species.includes(pet.species)
       && typeof pet.name === 'string' && Array.from(pet.name).length > 0 && Array.from(pet.name).length <= 32
       && !/[\u0000-\u001f\u007f-\u009f\u2028\u2029]/u.test(pet.name)
       && typeof pet.color === 'string' && /^#[0-9a-f]{6}$/i.test(pet.color);
   }
-
-  function setStatus(message) {
-    if (status.textContent !== message) status.textContent = message;
-  }
-
-  function visible() { return hostVisible && !document.hidden; }
-
-  function stopReaction() {
-    clearTimeout(reactionTimer);
-    reactionTimer = undefined;
-  }
-
+  function setStatus(message) { if (status.textContent !== message) status.textContent = message; }
+  function visible() { return !disposed && hostVisible && !document.hidden; }
+  function animated() { return visible() && motionEnabled && !reducedMotion.matches; }
+  function stopReaction() { clearTimeout(reactionTimer); reactionTimer = undefined; }
   function finishReaction() {
     stopReaction();
-    if (scene.dataset.mood === 'resting') return;
-    const played = scene.dataset.mood === 'playful';
-    scene.dataset.mood = 'idle';
-    if (played && currentPet) setStatus(`${currentPet.name} caught the moon ball. Toss it again?`);
+    if (scene.dataset.mood !== 'resting') scene.dataset.mood = 'idle';
   }
-
-  function endStroke() {
-    const previousPointer = pointer;
-    pointer = undefined;
-    if (previousPointer && art.hasPointerCapture(previousPointer.id)) art.releasePointerCapture(previousPointer.id);
-    scene.dataset.stroking = 'false';
-    if (scene.dataset.mood === 'happy' && visible()) {
-      stopReaction();
-      reactionTimer = setTimeout(finishReaction, 1400);
+  function stopFrame() { cancelAnimationFrame(frameId); frameId = undefined; lastFrame = undefined; }
+  function draw() {
+    position.style.transform = `translate3d(${world.pet.x.toFixed(2)}px, ${(-world.pet.y).toFixed(2)}px, 0)`;
+    toy.style.transform = `translate3d(${(world.ball.x - 12).toFixed(2)}px, ${(-world.ball.y).toFixed(2)}px, 0)`;
+    art.querySelector('.pet-gaze')?.setAttribute('transform', `translate(${gaze.x.toFixed(2)} ${gaze.y.toFixed(2)})`);
+    art.querySelector('.pet-body')?.setAttribute('transform', `rotate(${gaze.lean.toFixed(2)} 110 150)`);
+    scene.dataset.held = gesture?.dragging ? gesture.kind : 'none';
+  }
+  function requestFrame() {
+    if (frameId === undefined && animated()) frameId = requestAnimationFrame(animateFrame);
+  }
+  function animateFrame(time) {
+    frameId = undefined;
+    if (!animated()) { lastFrame = undefined; return; }
+    const dt = lastFrame === undefined ? 1 / 60 : Math.min(.04, Math.max(0, (time - lastFrame) / 1000));
+    lastFrame = time;
+    const wasChasing = world.chasing;
+    const active = motion.step(world, dt);
+    const ease = 1 - Math.exp(-14 * dt);
+    gaze.x += (gaze.tx - gaze.x) * ease;
+    gaze.y += (gaze.ty - gaze.y) * ease;
+    gaze.lean += (gaze.targetLean - gaze.lean) * ease;
+    scene.dataset.moving = String(!world.pet.held && Math.abs(world.pet.x - previousPetX) > .12);
+    previousPetX = world.pet.x;
+    if (wasChasing && !world.chasing && scene.dataset.mood === 'playful') {
+      finishReaction();
+      setStatus(`${currentPet.name} caught it. Your throw, your game.`);
     }
+    draw();
+    if (active || Math.abs(gaze.x - gaze.tx) + Math.abs(gaze.y - gaze.ty) + Math.abs(gaze.lean - gaze.targetLean) > .04) requestFrame();
+    else { lastFrame = undefined; scene.dataset.moving = 'false'; }
   }
-
+  function releaseCapture() {
+    const old = gesture;
+    gesture = undefined;
+    if (old?.element.hasPointerCapture(old.id)) old.element.releasePointerCapture(old.id);
+    scene.dataset.stroking = 'false';
+    gaze.targetLean = 0;
+  }
+  function cancelGesture() {
+    const wasPlaying = scene.dataset.mood === 'playful';
+    const wasCarried = gesture?.kind === 'pet' && gesture.dragging;
+    releaseCapture();
+    motion.settle(world);
+    scene.dataset.moving = 'false';
+    finishReaction();
+    if (wasPlaying) setStatus('Ready for another throw.');
+    else if (wasCarried) setStatus(`${currentPet.name} is ready for more.`);
+    draw();
+  }
   function syncMotion() {
+    const wasAnimated = document.body.dataset.motion === 'true';
     document.body.dataset.visible = String(visible());
-    document.body.dataset.motion = String(motionEnabled && !reducedMotion.matches);
+    document.body.dataset.motion = String(animated());
     motionButton.textContent = reducedMotion.matches ? 'Reduced motion' : `Motion ${motionEnabled ? 'on' : 'off'}`;
     motionButton.setAttribute('aria-pressed', String(motionEnabled && !reducedMotion.matches));
     motionButton.disabled = reducedMotion.matches;
-    if (!visible()) {
-      endStroke();
-      finishReaction();
+    if (!animated()) {
+      if (!visible() || wasAnimated) cancelGesture();
+      stopFrame();
+      gaze.x = gaze.y = gaze.tx = gaze.ty = gaze.lean = gaze.targetLean = 0;
+      draw();
+      if (!visible()) finishReaction();
     }
   }
-
-  function react(mood) {
+  function react(action, prepared = false) {
     stopReaction();
-    scene.dataset.mood = 'idle';
-    // Restart only intentional actions, never a visibility or ready refresh.
-    void art.offsetWidth;
+    const mood = ({ pet: 'happy', play: 'playful', rest: 'resting' })[action];
     scene.dataset.mood = mood;
-    const messages = {
-      idle: 'Ready to keep you company.',
-      happy: `${currentPet.name} leans into the head scratches.`,
-      playful: `${currentPet.name} is chasing the moon ball.`,
-      resting: `${currentPet.name} is taking a quiet moon nap. Click to wake up.`
-    };
-    setStatus(messages[mood]);
-    if (mood !== 'resting' && !pointer) reactionTimer = setTimeout(finishReaction, mood === 'playful' ? 2400 : 1400);
+    if (action === 'rest') {
+      motion.rest(world);
+      setStatus(`${currentPet.name} is taking a quiet moon nap. Touch to wake.`);
+    } else if (action === 'play') {
+      if (!prepared) motion.tossBall(world);
+      setStatus(`${currentPet.name} is chasing your throw.`);
+    } else {
+      motion.wake(world);
+      setStatus(`${currentPet.name} leans into the head scratches.`);
+    }
+    if (!animated()) {
+      if (action === 'rest') world.pet.x = world.pet.targetX;
+      motion.settle(world);
+      if (action === 'play') setStatus(`${currentPet.name} caught the moon ball.`);
+      if (action !== 'rest') reactionTimer = setTimeout(finishReaction, 1400);
+    } else {
+      if (action === 'pet' && !gesture) reactionTimer = setTimeout(finishReaction, 1400);
+      requestFrame();
+    }
+    draw();
   }
-
-  function render(pet, mood, interactionId, hostIsVisible = true, allowReaction = false) {
-    if (!validPet(pet) || !moods.includes(mood) || !Number.isSafeInteger(interactionId) || interactionId < 0) return;
+  function interact(action, prepared = false) {
+    if (!visible()) return;
+    // Respond in this frame. Host acknowledgements must never restart the gesture.
+    pendingActions.push(action);
+    react(action, prepared);
+    vscode.postMessage({ type: 'interact', action });
+  }
+  function render(pet, mood, interactionId, hostIsVisible = true) {
+    if (!validPet(pet) || !moods.includes(mood) || !Number.isSafeInteger(interactionId) || interactionId < 0) return false;
     const changed = !currentPet || pet.species !== currentPet.species || pet.color !== currentPet.color || pet.name !== currentPet.name;
     if (!currentPet || pet.species !== currentPet.species || pet.color !== currentPet.color) art.innerHTML = petSvg(pet);
     currentPet = pet;
     name.textContent = pet.name;
     art.setAttribute('aria-label', `Pet ${pet.name}`);
-    const kind = ({
-      robot: 'little robot', penguin: 'moon penguin', labrador: 'moon labrador',
-      sam: 'fan character companion', tibo: 'fan character companion'
-    })[pet.species] || `moon ${pet.species}`;
-    scene.setAttribute('aria-label', pet.species === 'sam' || pet.species === 'tibo'
-      ? `${pet.name}, a fan character companion`
-      : `${pet.name}, your ${kind}`);
-    hostVisible = hostIsVisible;
+    const kind = ({ robot: 'little robot', penguin: 'moon penguin', labrador: 'moon labrador', sam: 'fan character companion', tibo: 'fan character companion' })[pet.species] || `moon ${pet.species}`;
+    scene.setAttribute('aria-label', `${pet.name}, ${pet.species === 'sam' || pet.species === 'tibo' ? 'a fan character companion' : `your ${kind}`}`);
     const newInteraction = lastInteractionId !== undefined && interactionId !== lastInteractionId;
+    const acknowledged = newInteraction && pendingActions.length > 0;
+    if (acknowledged) pendingActions.shift();
     lastInteractionId = interactionId;
-    syncMotion();
+    hostVisible = hostIsVisible;
     if (changed) {
-      endStroke();
-      stopReaction();
+      cancelGesture(); stopFrame(); stopReaction();
+      const sprite = art.getBoundingClientRect();
+      motion.resize(world, world.width, world.height, { petWidth: sprite.width, petHeight: sprite.height });
+      pendingActions.length = 0;
       scene.dataset.mood = 'idle';
-      setStatus('Ready to keep you company.');
+      setStatus('A little company. A little mischief.');
     }
-    if (visible() && newInteraction && allowReaction) react(mood);
-    else if (mood === 'resting') {
-      scene.dataset.mood = 'resting';
-      setStatus(`${pet.name} is taking a quiet moon nap. Click to wake up.`);
+    syncMotion();
+    if (!hasHostState && !pendingActions.length && mood === 'resting') react('rest');
+    else if (hasHostState && newInteraction && !acknowledged && !pendingActions.length && visible()) {
+      // Supports a host-originated state without replaying visibility refreshes.
+      const action = ({ happy: 'pet', playful: 'play', resting: 'rest' })[mood];
+      if (action) react(action);
     }
+    draw();
+    return true;
+  }
+  function point(event) {
+    const rect = scene.getBoundingClientRect();
+    return { x: event.clientX - rect.left, y: rect.bottom - 12 - event.clientY };
+  }
+  function aim(event) {
+    if (!animated() || world.pet.resting) return;
+    const rect = art.getBoundingClientRect();
+    gaze.tx = Math.max(-3, Math.min(3, (event.clientX - rect.left - rect.width / 2) / 20));
+    gaze.ty = Math.max(-2, Math.min(2, (event.clientY - rect.top - rect.height / 2) / 25));
+    requestFrame();
+  }
+  function startGesture(kind, element, event) {
+    if (!event.isPrimary || event.button !== 0 || !visible() || gesture) return;
+    event.preventDefault();
+    const p = point(event);
+    const object = kind === 'pet' ? world.pet : world.ball;
+    suppressedClicks.delete(kind);
+    gesture = { kind, element, id: event.pointerId, start: p, last: p, time: performance.now(), vx: 0, vy: 0, dragging: kind === 'ball', moved: false, dx: p.x - object.x, dy: p.y - object.y };
+    suppressedClicks.add(kind);
+    element.setPointerCapture(event.pointerId);
+    if (kind === 'pet') interact('pet');
+    else { stopReaction(); motion.holdBall(world, world.ball.x, world.ball.y); draw(); }
+  }
+  function moveGesture(event) {
+    if (!gesture || gesture.id !== event.pointerId) { aim(event); return; }
+    const p = point(event);
+    const dx = p.x - gesture.start.x;
+    const dy = p.y - gesture.start.y;
+    const now = performance.now();
+    const dt = Math.max(.008, Math.min(.08, (now - gesture.time) / 1000));
+    gesture.vx = .6 * ((p.x - gesture.last.x) / dt) + .4 * gesture.vx;
+    gesture.vy = .6 * ((p.y - gesture.last.y) / dt) + .4 * gesture.vy;
+    gesture.moved ||= Math.hypot(dx, dy) > 5;
+    if (gesture.kind === 'pet') {
+      gesture.dragging ||= Math.abs(dy) > 16 || Math.abs(dx) > 40;
+      if (gesture.dragging) {
+        motion.holdPet(world, p.x - gesture.dx, p.y - gesture.dy);
+        scene.dataset.stroking = 'false';
+        gaze.targetLean = Math.max(-9, Math.min(9, gesture.vx / 90));
+        setStatus(`You've got ${currentPet.name}. Drop onto the cushion for a nap.`);
+      } else {
+        scene.dataset.stroking = String(gesture.moved);
+        gaze.targetLean = Math.max(-5, Math.min(5, dx / 5));
+        aim(event);
+      }
+    } else motion.holdBall(world, p.x - gesture.dx, p.y - gesture.dy);
+    gesture.last = p; gesture.time = now;
+    draw(); requestFrame();
+  }
+  function endGesture(event, cancelled = false) {
+    if (!gesture || gesture.id !== event.pointerId) return;
+    const old = gesture;
+    releaseCapture();
+    if (cancelled) {
+      motion.settle(world); finishReaction();
+      setStatus(`${currentPet.name} is ready for more.`);
+    } else if (old.kind === 'ball') {
+      if (old.moved) {
+        const fresh = performance.now() - old.time < 120;
+        motion.throwBall(world, fresh ? old.vx : 0, fresh ? old.vy : 0);
+      } else motion.tossBall(world);
+      interact('play', true);
+    } else {
+      motion.releasePet(world);
+      if (old.dragging && world.pet.y < 32 && Math.abs(world.pet.x - world.width * .22) < Math.max(24, world.width * .13)) interact('rest');
+      else {
+        if (old.dragging) setStatus(`${currentPet.name} is ready for more.`);
+        reactionTimer = setTimeout(finishReaction, 1400);
+      }
+    }
+    if (!animated()) motion.settle(world);
+    draw(); requestFrame();
   }
 
-  function interact(action) {
-    if (visible()) vscode.postMessage({ type: 'interact', action });
-  }
-
-  try { render(JSON.parse(main.dataset.pet), 'idle', 0); } catch { /* A fresh host state will arrive next. */ }
+  try { render(JSON.parse(main.dataset.pet), 'idle', 0); } catch { /* A validated host state follows. */ }
   window.addEventListener('message', event => {
     const message = event.data;
-    if (message && message.type === 'state' && typeof message.visible === 'boolean') {
-      render(message.pet, message.mood, message.interactionId, message.visible, hasHostState);
-      if (validPet(message.pet) && moods.includes(message.mood) && Number.isSafeInteger(message.interactionId) && message.interactionId >= 0) hasHostState = true;
-    }
+    if (message?.type === 'state' && typeof message.visible === 'boolean' && render(message.pet, message.mood, message.interactionId, message.visible)) hasHostState = true;
   });
-  document.querySelectorAll('[data-action]').forEach(button => {
-    button.addEventListener('click', () => {
-      endStroke();
-      interact(button.dataset.action);
-    });
-  });
-  art.addEventListener('pointerdown', event => {
-    if (!event.isPrimary || event.button !== 0 || !visible()) return;
-    endStroke();
-    pointer = { id: event.pointerId, x: event.clientX, y: event.clientY };
-    suppressPointerClick = true;
-    art.setPointerCapture(event.pointerId);
-    interact('pet');
-  });
-  art.addEventListener('pointermove', event => {
-    if (!pointer || pointer.id !== event.pointerId) return;
-    if (Math.hypot(event.clientX - pointer.x, event.clientY - pointer.y) >= 6) {
-      scene.dataset.stroking = 'true';
-      pointer.x = event.clientX;
-      pointer.y = event.clientY;
-    }
-  });
-  for (const eventName of ['pointerup', 'pointercancel', 'lostpointercapture']) {
-    art.addEventListener(eventName, event => {
-      if (pointer && pointer.id === event.pointerId) endStroke();
+  for (const [kind, element] of [['pet', art], ['ball', toy]]) {
+    element.addEventListener('pointerdown', event => startGesture(kind, element, event));
+    element.addEventListener('pointermove', moveGesture);
+    element.addEventListener('pointerup', event => endGesture(event));
+    element.addEventListener('pointercancel', event => endGesture(event, true));
+    element.addEventListener('lostpointercapture', event => endGesture(event, true));
+    element.addEventListener('click', event => {
+      if (event.detail > 0 && suppressedClicks.has(kind)) { suppressedClicks.delete(kind); return; }
+      suppressedClicks.delete(kind);
+      if (gesture) cancelGesture();
+      interact(kind === 'pet' ? 'pet' : 'play');
     });
   }
-  // A native button provides Enter/Space activation without duplicate key handlers.
-  art.addEventListener('click', event => {
-    if (event.detail > 0 && suppressPointerClick) { suppressPointerClick = false; return; }
-    suppressPointerClick = false;
-    interact('pet');
+  art.addEventListener('pointerleave', () => {
+    if (!gesture) { gaze.tx = gaze.ty = gaze.targetLean = 0; requestFrame(); }
   });
-  document.getElementById('toy').addEventListener('click', () => { endStroke(); interact('play'); });
+  pad.addEventListener('click', () => { if (gesture) cancelGesture(); interact('rest'); });
   motionButton.addEventListener('click', () => {
+    if (reducedMotion.matches) return;
     motionEnabled = !motionEnabled;
     vscode.setState({ ...vscode.getState(), motionEnabled });
     syncMotion();
   });
   reducedMotion.addEventListener('change', syncMotion);
-  document.getElementById('customize').addEventListener('click', () => vscode.postMessage({ type: 'customize' }));
+  document.getElementById('customize').addEventListener('click', () => { if (visible()) vscode.postMessage({ type: 'customize' }); });
   document.addEventListener('visibilitychange', () => {
     syncMotion();
     if (visible()) vscode.postMessage({ type: 'ready' });
   });
-  window.addEventListener('blur', endStroke);
-  window.addEventListener('pagehide', () => { endStroke(); stopReaction(); });
+  window.addEventListener('blur', () => { cancelGesture(); finishReaction(); stopFrame(); });
+  window.addEventListener('pagehide', () => { disposed = true; syncMotion(); stopReaction(); });
+  const resizeObserver = new ResizeObserver(() => {
+    const rect = scene.getBoundingClientRect();
+    const sprite = art.getBoundingClientRect();
+    cancelGesture(); motion.resize(world, rect.width, rect.height, { petWidth: sprite.width, petHeight: sprite.height }); draw(); requestFrame();
+  });
+  resizeObserver.observe(scene);
+  window.addEventListener('pagehide', () => resizeObserver.disconnect());
   vscode.postMessage({ type: 'ready' });
 })();

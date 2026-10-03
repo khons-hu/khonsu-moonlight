@@ -5,3 +5,4 @@ examples/**
 .vscodeignore
 dist/**
 tests/**
+media/pets-demo.gif

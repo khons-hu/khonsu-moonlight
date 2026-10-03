@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.7.0
+
+- Replace the Pet/Play/Rest action row with direct scene interactions and keyboard-accessible objects.
+- Pet with an immediate click or stroke, lift and carry a companion, and release it for a soft landing.
+- Flick the ball to choose its throw. Bounces and pursuit follow the actual ball position.
+- Tap the cushion or drop a companion onto it for a nap, then touch the companion to wake it.
+- Add eased gaze and lean, subtle breathing and walking, and bounded motion that stops when hidden.
+- Keep system reduced motion respected, with direct controls usable without animation.
+- Refresh the companion demo and screenshots for the direct-interaction scene.
+
+## 0.6.1
+
+- Opt into semantic highlighting and refine Python fallback colors for calls, attributes, decorators and arguments.
+- Soften Explorer text and darken the status bar with a clearer border.
+- Keep companions opt-in: the sidebar is hidden by default, **Show Pets** enables and opens it, and **Hide Pets** hides it.
+- Preserve the selected companion, name and color when hiding the sidebar.
+
 ## 0.6.0
 
 - Add a penguin, Labrador, Sam Altman and Tibo Sottiaux (@thsottiaux) to the companion picker. Sam and Tibo are original cartoon fan characters.
