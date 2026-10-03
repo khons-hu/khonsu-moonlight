@@ -22,11 +22,11 @@ The color theme works on its own. Optional setup commands, a curated extension i
 
 ## Full workspace walkthrough
 
-[![Khonsu Moonlight: code, focus and pets](screenshots/full-demo-poster.jpg)](https://khns.dev/assets/previews/moonlight-full-demo-070.mp4)
+[![Khonsu Moonlight: code, focus and pets](screenshots/full-demo-poster.jpg)](https://khns.dev/assets/previews/moonlight-full-demo-070.mp4?v=130wpm)
 
-[Watch the 3:27 walkthrough](https://khns.dev/assets/previews/moonlight-full-demo-070.mp4) · [Download captions](screenshots/full-demo.srt)
+[Watch the 3:00 walkthrough](https://khns.dev/assets/previews/moonlight-full-demo-070.mp4?v=130wpm) · [Download captions](screenshots/full-demo.srt)
 
-Actual VS Code interactions in a dedicated demo profile: writing and correcting TypeScript, formatting on save, running Python, optional setup choices, applying and restoring settings, the focus timer, direct pet gestures, Labrador customization, and bundled guides and wallpaper. Typing keeps its recorded pace. The extension installer and Vim/Neovim choices are previewed, and the terminal setup command is prepared but not run. The separate motion-enabled pet preview is labeled. The VS Code capture respects system reduced motion.
+Actual VS Code interactions in a dedicated demo profile: writing and correcting TypeScript, formatting on save, running Python, optional setup choices, applying and restoring settings, the focus timer, direct pet gestures, Labrador customization, and bundled guides and wallpaper. Typing passages are edited to about 130 WPM. Other scene timings are retained. The extension installer and Vim/Neovim choices are previewed, and the terminal setup command is prepared but not run. The separate motion-enabled pet preview is labeled. The VS Code capture respects system reduced motion.
 
 ## Companion demo
 

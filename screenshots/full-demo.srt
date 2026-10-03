@@ -4,71 +4,71 @@ Khonsu Moonlight
 A real coding session in the local 0.7.0 build. Synthetic example code.
 
 2
-00:00:03,565 --> 00:00:44,076
+00:00:03,565 --> 00:00:18,460
 Write. Correct. Format.
-Type a ticket filter, fix the condition, then let Prettier format on save.
+Typing paced to about 130 WPM. Fix the condition, then let Prettier format on save.
 
 3
-00:00:44,076 --> 00:00:58,555
+00:00:18,460 --> 00:00:31,086
 Code you can read
 Python syntax colours, softer interface text and a matching integrated terminal.
 
 4
-00:00:58,555 --> 00:01:12,648
+00:00:31,086 --> 00:00:45,179
 Choose your tools
 Preview the optional extension catalogue. Nothing is installed in this step.
 
 5
-00:01:12,648 --> 00:01:23,590
+00:00:45,179 --> 00:00:56,121
 Settings you can undo
 Apply the appearance preset, then restore the previous values.
 
 6
-00:01:23,590 --> 00:01:40,389
+00:00:56,121 --> 00:01:12,920
 Make room for focus
 Start a 25-minute session. Pause and resume from the status bar.
 
 7
-00:01:40,389 --> 00:01:55,090
+00:01:12,920 --> 00:01:27,621
 Take a pet break
 Pet, carry, flick the ball and tap the cushion. System reduced motion is respected.
 
 8
-00:01:55,090 --> 00:02:10,456
+00:01:27,621 --> 00:01:42,987
 Meet Pixel
 Choose a Labrador, give it a name and pick a colour. Then play directly in the scene.
 
 9
-00:02:10,456 --> 00:02:43,331
+00:01:42,987 --> 00:02:15,862
 Motion-enabled pet preview
 Separate local production-webview fixture capture, CUA screenshot sequence. No OS preference was changed.
 
 10
-00:02:43,331 --> 00:02:50,142
+00:02:15,862 --> 00:02:22,673
 Back to work
 Hide the pet without losing it. Stop the focus session when you are done.
 
 11
-00:02:50,142 --> 00:02:54,792
+00:02:22,673 --> 00:02:27,323
 Vim or Neovim
 Preview the optional backend choices. No backend is installed or changed here.
 
 12
-00:02:54,792 --> 00:03:07,865
+00:02:27,323 --> 00:02:40,396
 A setup guide, built in
 Editor tools, profiles, modal editing, pets, fonts and terminal setup in one guide.
 
 13
-00:03:07,865 --> 00:03:14,848
+00:02:40,396 --> 00:02:47,379
 Review before running
 The terminal installer is prepared for review. It is not executed in this demo.
 
 14
-00:03:14,848 --> 00:03:19,361
+00:02:47,379 --> 00:02:51,892
 A matching setup
 Bundled wallpaper and profiles carry the Moonlight palette beyond the editor.
 
 15
-00:03:19,361 --> 00:03:27,391
+00:02:51,892 --> 00:02:59,922
 Your workspace, your pace
 Khonsu Moonlight 0.7.0  /  github.com/khons-hu/khonsu-moonlight  /  khns.dev
