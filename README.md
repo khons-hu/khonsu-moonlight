@@ -1,10 +1,20 @@
-# Khonsu Moonlight
+<p align="center"><img src="icon.png" alt="Khonsu Moonlight crescent and star" width="72"></p>
 
-![Khonsu Moonlight logo](icon.png)
+<h1 align="center">Khonsu Moonlight</h1>
+
+<p align="center">Midnight-navy colors for VS Code, Vim, Neovim and your terminal.</p>
+
+<p align="center"><a href="https://marketplace.visualstudio.com/items?itemName=khons-hu.khonsu-moonlight">Visual Studio Marketplace</a> · <a href="#install">Install</a> · <a href="#features">Features</a> · <a href="#setup-and-extras">Setup and extras</a> · <a href="#vim-and-neovim">Vim and Neovim</a> · <a href="#palette">Palette</a></p>
 
 A dark Visual Studio Code color theme built around a midnight-navy editor, pale text, and a small set of cool accents. Ice blue marks focus and links, muted lavender carries language structure, mint distinguishes strings and additions, and muted rose marks removals and errors. Warm sand highlights literals and types so common syntax remains easy to scan.
 
-The color theme works on its own. Version 0.6.0 includes optional setup commands, a curated extension installer, Vim and Neovim presets, custom companions and a focus timer. No extensions, settings or shell commands run automatically on activation. Workbench surfaces stay close to the editor background, with restrained borders and clear selection states.
+The color theme works on its own. Version 0.6.0 includes optional setup commands, a curated extension installer, Vim and Neovim presets, custom companions and a focus timer. Nothing installs or changes settings on activation. Workbench surfaces stay close to the editor background, with restrained borders and clear selection states.
+
+## Features
+
+- Seven interactive local companions, with petting, ball play and naps.
+- An optional picker for 22 extensions, plus formatting, editor and terminal presets with backup and restore.
+- A focus timer, separate VSCodeVim and VS Code Neovim profiles, and native Vim and Neovim colorschemes.
 
 ## Pets in motion
 
