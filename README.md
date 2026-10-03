@@ -20,6 +20,14 @@ The color theme works on its own. Optional setup commands, a curated extension i
 
 ![Python syntax colors with semantic highlighting and TextMate fallback](screenshots/python-feedback.png)
 
+## Full workspace walkthrough
+
+[![Khonsu Moonlight: code, focus and pets](screenshots/full-demo-poster.jpg)](https://khns.dev/assets/previews/moonlight-full-demo-070.mp4)
+
+[Watch the 3:27 walkthrough](https://khns.dev/assets/previews/moonlight-full-demo-070.mp4) · [Download captions](screenshots/full-demo.srt)
+
+Actual VS Code interactions in a dedicated demo profile: writing and correcting TypeScript, formatting on save, running Python, optional setup choices, applying and restoring settings, the focus timer, direct pet gestures, Labrador customization, and bundled guides and wallpaper. Typing keeps its recorded pace. The extension installer and Vim/Neovim choices are previewed, and the terminal setup command is prepared but not run. The separate motion-enabled pet preview is labeled. The VS Code capture respects system reduced motion.
+
 ## Companion demo
 
 The 0.7.0 scene keeps all seven companions and replaces the action row with direct gestures: stroke or carry a companion, flick the ball into a chase, or tap the cushion for a nap. Scene objects also work from the keyboard. Companions respect the system reduced-motion setting.
